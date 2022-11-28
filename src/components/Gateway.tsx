@@ -1,8 +1,8 @@
-import { gatewaysData } from '../mocks/gateways';
+import { Gateway as GatewayInterface } from '../const';
 import EditableCell from './EditableCell';
 
 interface GatewayProps {
-  gateway: typeof gatewaysData[number],
+  gateway: GatewayInterface,
 }
 
 function Gateway ({ gateway }: GatewayProps) {
