@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Button } from 'react-bootstrap';
 import { Gateway as GatewayInterface } from '../const';
 import { useAppDispatch } from '../hooks';
-import { patchGateway } from '../store/gatewaysSlice';
+import { deleteGateway, patchGateway } from '../api/gateways';
 
 interface GatewayProps {
   gateway: GatewayInterface,
@@ -25,7 +25,7 @@ function Gateway ({ gateway }: GatewayProps) {
   };
 
   const deleteBtnClickHandler = () => {
-
+    dispatch(deleteGateway(gatewayData.id))
   }
 
   return (

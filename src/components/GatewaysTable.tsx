@@ -1,7 +1,8 @@
 import { useEffect } from 'react';
-import {Table} from 'react-bootstrap';
+import { Table } from 'react-bootstrap';
+import { fetchGateways } from '../api/gateways';
 import { useAppDispatch, useAppSelector } from '../hooks';
-import { fetchGateways, selectors } from '../store/gatewaysSlice';
+import { selectors } from '../store/gatewaysSlice';
 import Gateway from './Gateway';
 
 function GatewaysTable () {

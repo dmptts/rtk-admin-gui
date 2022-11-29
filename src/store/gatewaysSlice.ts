@@ -1,44 +1,9 @@
-import { createAsyncThunk, createEntityAdapter, createSlice } from '@reduxjs/toolkit';
-import { ApiUrls, Gateway as GatewayInterface } from '../const';
+import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
+import { deleteGateway, fetchGateways, patchGateway } from '../api/gateways';
+import { Gateway as GatewayInterface } from '../const';
 import { RootState } from './store';
 
 const gatewaysAdapter = createEntityAdapter<GatewayInterface>();
-
-export const fetchGateways = createAsyncThunk<GatewayInterface[], undefined, { rejectValue: string }>(
-  'gateways/fetchGateways',
-  async (_, { rejectWithValue }) => {
-    const response = await fetch(`${ApiUrls.fetchGateways()}`)
-
-    if (!response.ok) {
-      return rejectWithValue('Can\'t fetch gateways!')
-    }
-
-    return (await response.json());
-  }
-);
-
-export const patchGateway = createAsyncThunk(
-  'gateways/patchGateway',
-  async (gateway: GatewayInterface, { rejectWithValue }) => {
-    const response = await fetch(`${ApiUrls.patchGateway(gateway.id)}`, {
-      method: 'PATCH',
-      headers: {
-        'Content-Type': 'application/json;charset=utf-8'
-      },
-      body: JSON.stringify({
-        ip: gateway.ip,
-        login: gateway.login,
-        password: gateway.password,
-      }),
-    });
-
-    if (!response.ok) {
-      return rejectWithValue('Can\'t edit gateway!');
-    }
-
-    return (await response.json());
-  }
-)
 
 interface ExtendedEntityAdapterState {
   loading: 'idle' | 'pending' | 'success' | 'error',
@@ -53,9 +18,7 @@ const initialState: ExtendedEntityAdapterState = {
 const gatewaysSlice = createSlice({
   name: 'gateways',
   initialState: gatewaysAdapter.getInitialState(initialState),
-  reducers: {
-
-  },
+  reducers: {},
   extraReducers(builder) {
     builder
       .addCase(fetchGateways.pending, (state) => {
@@ -86,6 +49,18 @@ const gatewaysSlice = createSlice({
         state.loading = 'success';
       })
       .addCase(patchGateway.rejected, (state, action) => {
+        state.loading = 'error';
+        state.error = action.payload as string;
+      })
+      .addCase(deleteGateway.pending, (state) => {
+        state.loading = 'pending';
+        state.error = null;
+      })
+      .addCase(deleteGateway.fulfilled, (state, action) => {
+        gatewaysAdapter.removeOne(state, action.payload);
+        state.loading = 'success';
+      })
+      .addCase(deleteGateway.rejected, (state, action) => {
         state.loading = 'error';
         state.error = action.payload as string;
       })
