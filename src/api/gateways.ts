@@ -5,7 +5,7 @@ import { Gateway as GatewayInterface } from '../const';
 export const fetchGateways = createAsyncThunk<GatewayInterface[], undefined, { rejectValue: string }>(
   'gateways/fetchGateways',
   async (_, { rejectWithValue }) => {
-    const response = await fetch(`${ApiUrls.fetchGateways()}`)
+    const response = await fetch(`${ApiUrls.gateways()}`)
 
     if (!response.ok) {
       return rejectWithValue('Can\'t fetch gateways!')
@@ -18,7 +18,7 @@ export const fetchGateways = createAsyncThunk<GatewayInterface[], undefined, { r
 export const patchGateway = createAsyncThunk(
   'gateways/patchGateway',
   async (gateway: GatewayInterface, { rejectWithValue }) => {
-    const response = await fetch(`${ApiUrls.patchGateway(gateway.id)}`, {
+    const response = await fetch(`${ApiUrls.gateway(gateway.id)}`, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json;charset=utf-8'
@@ -41,7 +41,7 @@ export const patchGateway = createAsyncThunk(
 export const deleteGateway = createAsyncThunk(
   'gateways/deleteGateway',
   async (id: number, { rejectWithValue }) => {
-    const response = await fetch(`${ApiUrls.patchGateway(id)}`, {
+    const response = await fetch(`${ApiUrls.gateway(id)}`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json;charset=utf-8'
