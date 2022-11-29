@@ -1,4 +1,4 @@
-import { createAsyncThunk, createEntityAdapter, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createAsyncThunk, createEntityAdapter, createSlice } from '@reduxjs/toolkit';
 import { ApiUrls, Gateway as GatewayInterface } from '../const';
 import { RootState } from './store';
 
@@ -16,6 +16,29 @@ export const fetchGateways = createAsyncThunk<GatewayInterface[], undefined, { r
     return (await response.json());
   }
 );
+
+export const patchGateway = createAsyncThunk(
+  'gateways/patchGateway',
+  async (gateway: GatewayInterface, { rejectWithValue }) => {
+    const response = await fetch(`${ApiUrls.patchGateway(gateway.id)}`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json;charset=utf-8'
+      },
+      body: JSON.stringify({
+        ip: gateway.ip,
+        login: gateway.login,
+        password: gateway.password,
+      }),
+    });
+
+    if (!response.ok) {
+      return rejectWithValue('Can\'t edit gateway!');
+    }
+
+    return (await response.json());
+  }
+)
 
 interface ExtendedEntityAdapterState {
   loading: 'idle' | 'pending' | 'success' | 'error',
@@ -44,6 +67,25 @@ const gatewaysSlice = createSlice({
         state.loading = 'success';
       })
       .addCase(fetchGateways.rejected, (state, action) => {
+        state.loading = 'error';
+        state.error = action.payload as string;
+      })
+      .addCase(patchGateway.pending, (state) => {
+        state.loading = 'pending';
+        state.error = null;
+      })
+      .addCase(patchGateway.fulfilled, (state, action) => {
+        gatewaysAdapter.updateOne(state, {
+          id: action.payload.id,
+          changes: {
+            ip: action.payload.ip,
+            login: action.payload.login,
+            password: action.payload.password,
+          }
+        });
+        state.loading = 'success';
+      })
+      .addCase(patchGateway.rejected, (state, action) => {
         state.loading = 'error';
         state.error = action.payload as string;
       })

@@ -1,26 +1,49 @@
+import React, { useState } from 'react';
+import { Button } from 'react-bootstrap';
 import { Gateway as GatewayInterface } from '../const';
-import EditableCell from './EditableCell';
+import { useAppDispatch } from '../hooks';
+import { patchGateway } from '../store/gatewaysSlice';
 
 interface GatewayProps {
   gateway: GatewayInterface,
 }
 
 function Gateway ({ gateway }: GatewayProps) {
-  const { id, ip, login, password, type } = gateway;
+  const dispatch = useAppDispatch();
+  const [gatewayData, setGatewayData] = useState(gateway);
+
+  const editablePropChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    e.preventDefault();
+    setGatewayData({
+      ...gatewayData,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const editablePropBlurHandler = () => {
+    dispatch(patchGateway(gatewayData));
+  };
+
+  const deleteBtnClickHandler = () => {
+
+  }
 
   return (
     <tr>
-      <td>{id}</td>
+      <td>{gatewayData.id}</td>
       <td>
-        <EditableCell data={ip} />
+        <input type="text" name="ip" value={gatewayData.ip} onChange={editablePropChangeHandler} onBlur={editablePropBlurHandler} />
       </td>
       <td>
-        <EditableCell data={login} />
+        <input type="text" name="login" value={gatewayData.login} onChange={editablePropChangeHandler} onBlur={editablePropBlurHandler} />
       </td>
       <td>
-        <EditableCell data={password} />
+        <input type="text" name="password" value={gatewayData.password} onChange={editablePropChangeHandler} onBlur={editablePropBlurHandler} />
       </td>
-      <td>{type}</td>
+      <td>{gatewayData.type}</td>
+      <td>
+        <Button onClick={deleteBtnClickHandler}>Удалить</Button>
+      </td>
     </tr>
   )
 }
