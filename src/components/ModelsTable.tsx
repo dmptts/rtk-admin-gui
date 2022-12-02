@@ -5,6 +5,7 @@ import { useAppDispatch, useAppSelector } from '../hooks';
 import { selectors } from '../store/modelsSlice';
 import Search from './Search';
 import Model from './Model';
+import TablePagination from './TablePagination';
 import { Model as ModelInterface } from '../const';
 
 export type SearchStateI = {
@@ -12,9 +13,11 @@ export type SearchStateI = {
 };
 
 function ModelsTable () {
+  const itemsPerPage = 1;
   const dispatch = useAppDispatch();
   const models = useAppSelector(selectors.selectAll);
   const [searchState, setSearchState] = useState<SearchStateI | null>(null);
+  const [currentPage, setCurrentPage] = useState<number>(1);
 
   const filterModels = (model: ModelInterface) => {
     if (searchState) {
@@ -34,6 +37,10 @@ function ModelsTable () {
     };
   };
 
+  const getPagesCount = () => {
+    return models.length > itemsPerPage ? Math.ceil(models.length / itemsPerPage): 0;
+  }
+
   useEffect(() => {
     dispatch(fetchModels());
   }, [dispatch]);
@@ -50,23 +57,30 @@ function ModelsTable () {
   }, [models]);
 
   return (
-    <Table>
-      <thead>
-        <tr>
-          <th>ID</th>
-          <th>Модель</th>
-          <th>Регион</th>
-          <th>Конфигурация</th>
-          <th>Логин</th>
-          <th>Пароль</th>
-          <th>Супер-пароль</th>
-        </tr>
-      </thead>
-      <tbody>
-        {searchState && models.length > 0 && <Search state={searchState} stateSetter={setSearchState} />}
-        {models.filter((model) => filterModels(model)).map((model) => <Model key={model.id} model={model} />)}
-      </tbody>
-    </Table>
+    <>
+      <Table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Модель</th>
+            <th>Регион</th>
+            <th>Конфигурация</th>
+            <th>Логин</th>
+            <th>Пароль</th>
+            <th>Супер-пароль</th>
+          </tr>
+        </thead>
+        <tbody>
+          {searchState && models.length > 0 && <Search state={searchState} stateSetter={setSearchState} />}
+          {models.filter((model) => filterModels(model)).map((model) => <Model key={model.id} model={model} />)}
+        </tbody>
+      </Table>
+      <TablePagination
+        pagesCount={getPagesCount()}
+        currentPage={currentPage}
+        setCurrentPage={setCurrentPage}
+      />
+    </>
   );
 };
 
