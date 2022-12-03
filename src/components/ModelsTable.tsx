@@ -13,33 +13,13 @@ export type SearchStateI = {
 };
 
 function ModelsTable () {
-  const itemsPerPage = 1;
+  const itemsPerPage = 5;
   const dispatch = useAppDispatch();
   const models = useAppSelector(selectors.selectAll);
   const [searchState, setSearchState] = useState<SearchStateI | null>(null);
   const [currentPage, setCurrentPage] = useState<number>(1);
-
-  const filterModels = (model: ModelInterface) => {
-    if (searchState) {
-      const results = [];
-
-      for (const key in model) {
-        if (searchState[key as keyof SearchStateI] === '') {
-          results.push(true);
-        } else if (model[key as keyof SearchStateI].toString().toLowerCase().includes(searchState[key as keyof SearchStateI].toLowerCase())) {
-          results.push(true);
-        } else {
-          results.push(false);
-        };
-      };
-
-      return results.every((result) => result === true) && model;
-    };
-  };
-
-  const getPagesCount = () => {
-    return models.length > itemsPerPage ? Math.ceil(models.length / itemsPerPage): 0;
-  }
+  const [pagesCount, setPagesCount] = useState<number>(0);
+  const [filteredData, setFilteredData] = useState<ModelInterface[] | null>(null);
 
   useEffect(() => {
     dispatch(fetchModels());
@@ -55,6 +35,36 @@ function ModelsTable () {
       );
     }
   }, [models]);
+
+  useEffect(() => {
+    if (models) {
+      setFilteredData(models.filter((entity) => {
+        if (searchState) {
+          const results = [];
+    
+          for (const key in entity) {
+            if (searchState[key as keyof SearchStateI] === '') {
+              results.push(true);
+            } else if (entity[key as keyof SearchStateI].toString().toLowerCase().includes(searchState[key as keyof SearchStateI].toLowerCase())) {
+              results.push(true);
+            } else {
+              results.push(false);
+            };
+          };
+    
+          return results.every((result) => result === true) && entity;
+        } else {
+          return false;
+        }
+      }));
+    };
+  }, [searchState, filteredData, models])
+
+  useEffect(() => {
+    if (filteredData) {
+      setPagesCount(filteredData.length > itemsPerPage ? Math.ceil(filteredData.length / itemsPerPage): 0);
+    };
+  }, [filteredData])
 
   return (
     <>
@@ -72,11 +82,17 @@ function ModelsTable () {
         </thead>
         <tbody>
           {searchState && models.length > 0 && <Search state={searchState} stateSetter={setSearchState} />}
-          {models.filter((model) => filterModels(model)).map((model) => <Model key={model.id} model={model} />)}
+          {filteredData && filteredData.map((model, i) => {
+            if ((currentPage * itemsPerPage) - itemsPerPage < i + 1 && currentPage * itemsPerPage >= i + 1) {
+              return <Model key={model.id} model={model} />
+            } else {
+              return null;
+            };
+          })}
         </tbody>
       </Table>
       <TablePagination
-        pagesCount={getPagesCount()}
+        pagesCount={pagesCount}
         currentPage={currentPage}
         setCurrentPage={setCurrentPage}
       />
