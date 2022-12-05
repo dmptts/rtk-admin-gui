@@ -1,9 +1,9 @@
 import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
-import { deleteModel, fetchModels, patchModel } from '../api/models';
+import { deleteModelConfig, fetchModelConfigs, patchModelConfig } from '../api/modelConfigs';
 import { Model } from '../const';
 import { RootState } from './store';
 
-const modelsAdapter = createEntityAdapter<Model>();
+const modelConfigsAdapter = createEntityAdapter<Model>();
 
 interface ExtendedEntityAdapterState {
   loading: boolean,
@@ -15,30 +15,30 @@ const initialState: ExtendedEntityAdapterState = {
   error: null,
 };
 
-const modelsSlice = createSlice({
+const configsSlice = createSlice({
   name: 'models',
-  initialState: modelsAdapter.getInitialState(initialState),
+  initialState: modelConfigsAdapter.getInitialState(initialState),
   reducers: {},
   extraReducers(builder) {
     builder
-      .addCase(fetchModels.pending, (state) => {
+      .addCase(fetchModelConfigs.pending, (state) => {
         state.loading = true;
         state.error = null;
       })
-      .addCase(fetchModels.fulfilled, (state, action) => {
-        modelsAdapter.addMany(state, action.payload);
+      .addCase(fetchModelConfigs.fulfilled, (state, action) => {
+        modelConfigsAdapter.addMany(state, action.payload);
         state.loading = false;
       })
-      .addCase(fetchModels.rejected, (state, action) => {
+      .addCase(fetchModelConfigs.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload as string;
       })
-      .addCase(patchModel.pending, (state) => {
+      .addCase(patchModelConfig.pending, (state) => {
         state.loading = true;
         state.error = null;
       })
-      .addCase(patchModel.fulfilled, (state, action) => {
-        modelsAdapter.updateOne(state, {
+      .addCase(patchModelConfig.fulfilled, (state, action) => {
+        modelConfigsAdapter.updateOne(state, {
           id: action.payload.id,
           changes: {
             model: action.payload.model,
@@ -51,24 +51,24 @@ const modelsSlice = createSlice({
         });
         state.loading = false;
       })
-      .addCase(patchModel.rejected, (state, action) => {
+      .addCase(patchModelConfig.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload as string;
       })
-      .addCase(deleteModel.pending, (state) => {
+      .addCase(deleteModelConfig.pending, (state) => {
         state.loading = true;
         state.error = null;
       })
-      .addCase(deleteModel.fulfilled, (state, action) => {
-        modelsAdapter.removeOne(state, action.payload);
+      .addCase(deleteModelConfig.fulfilled, (state, action) => {
+        modelConfigsAdapter.removeOne(state, action.payload);
         state.loading = false;
       })
-      .addCase(deleteModel.rejected, (state, action) => {
+      .addCase(deleteModelConfig.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload as string;
       })
   },
 });
 
-export default modelsSlice.reducer;
-export const selectors = modelsAdapter.getSelectors((state: RootState) => state.models);
+export default configsSlice.reducer;
+export const selectors = modelConfigsAdapter.getSelectors((state: RootState) => state.models);

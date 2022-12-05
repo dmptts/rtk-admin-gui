@@ -19,8 +19,8 @@ function Search<T extends SearchStateI> ({state, stateSetter}: SearchProps<T>) {
 
   return (
     <tr>
-      {Object.keys(state).map((param) => {
-        return <td>
+      {Object.keys(state).map((param, i) => {
+        return <td key={i}>
           <input type="text" name={param} value={state[param as keyof T]} onChange={changeHandler} />
         </td>
       })}

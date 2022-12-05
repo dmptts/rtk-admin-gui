@@ -1,12 +1,8 @@
-import GatewaysTable from './components/GatewaysTable';
-import ModelsTable from './components/ModelsTable';
+import ModelConfigsPage from './components/ModelConfigsPage';
 
 function App() {
   return (
-    <>
-      <GatewaysTable />
-      <ModelsTable />
-    </>
+    <ModelConfigsPage />
   );
 }
 

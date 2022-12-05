@@ -1,11 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit';
 import gatewayReducer from './gatewaysSlice';
-import modelsReducer from './modelsSlice';
+import modelConfigsReducer from './modelConfigsSlice';
 
 const store = configureStore({
   reducer: {
     gateways: gatewayReducer,
-    models: modelsReducer,
+    models: modelConfigsReducer,
   },
 });
 

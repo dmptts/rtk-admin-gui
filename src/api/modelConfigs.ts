@@ -1,7 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { ApiUrls, Model } from '../const';
 
-export const fetchModels = createAsyncThunk<Model[]>(
+export const fetchModelConfigs = createAsyncThunk<Model[]>(
   'models/fetchModels',
   async (_, { rejectWithValue }) => {
     const response = await fetch(`${ApiUrls.models()}`);
@@ -14,7 +14,7 @@ export const fetchModels = createAsyncThunk<Model[]>(
   }
 );
 
-export const patchModel = createAsyncThunk(
+export const patchModelConfig = createAsyncThunk(
   'models/patchModel',
   async (model: Model, { rejectWithValue }) => {
     const response = await fetch(`${ApiUrls.model(model.id)}`, {
@@ -40,7 +40,7 @@ export const patchModel = createAsyncThunk(
   }
 );
 
-export const deleteModel = createAsyncThunk(
+export const deleteModelConfig = createAsyncThunk(
   'models/deleteModel',
   async (id: number, { rejectWithValue }) => {
     const response = await fetch(`${ApiUrls.model(id)}`, {
