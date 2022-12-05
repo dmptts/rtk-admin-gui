@@ -1,12 +1,13 @@
 import { useEffect, useState } from 'react';
 import { Table } from 'react-bootstrap';
-import { fetchModels } from '../api/models';
+import { deleteModel, fetchModels, patchModel } from '../api/models';
 import { useAppDispatch, useAppSelector } from '../hooks';
 import { selectors } from '../store/modelsSlice';
 import Search from './Search';
-import Model from './Model';
+// import Model from './Model';
 import TablePagination from './TablePagination';
 import { Model as ModelInterface } from '../const';
+import DataRow from './DataRow';
 
 export type SearchStateI = {
   [key in keyof ModelInterface]: string;
@@ -84,7 +85,7 @@ function ModelsTable () {
           {searchState && models.length > 0 && <Search state={searchState} stateSetter={setSearchState} />}
           {filteredData && filteredData.map((model, i) => {
             if ((currentPage * itemsPerPage) - itemsPerPage < i + 1 && currentPage * itemsPerPage >= i + 1) {
-              return <Model key={model.id} model={model} />
+              return <DataRow key={model.id} entity={model} patchEntity={patchModel} deleteEntity={deleteModel} />
             } else {
               return null;
             };
