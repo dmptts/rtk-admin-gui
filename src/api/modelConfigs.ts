@@ -1,7 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { ApiUrls, Model } from '../const';
+import { ApiUrls, ModelConfig } from '../const';
 
-export const fetchModelConfigs = createAsyncThunk<Model[]>(
+export const fetchModelConfigs = createAsyncThunk<ModelConfig[]>(
   'models/fetchModels',
   async (_, { rejectWithValue }) => {
     const response = await fetch(`${ApiUrls.models()}`);
@@ -16,7 +16,7 @@ export const fetchModelConfigs = createAsyncThunk<Model[]>(
 
 export const patchModelConfig = createAsyncThunk(
   'models/patchModel',
-  async (model: Model, { rejectWithValue }) => {
+  async (model: ModelConfig, { rejectWithValue }) => {
     const response = await fetch(`${ApiUrls.model(model.id)}`, {
       method: 'PATCH',
       headers: {

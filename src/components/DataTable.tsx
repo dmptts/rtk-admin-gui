@@ -4,6 +4,7 @@ import Search from './Search';
 import TablePagination from './TablePagination';
 import DataRow from './DataRow';
 import { AsyncThunk } from '@reduxjs/toolkit';
+import { TableHeadings } from '../const';
 
 interface DataTableProps<T> {
   data: T[],
@@ -28,7 +29,7 @@ function DataTable<T extends { id: number, [key: string]: any }> ({ data, patchE
   }, [data]);
 
   const getTableHeadings = useCallback(() => {
-    return data && data.length > 0 && Object.entries(data[0]).map((entry, i) => <th key={i}>{entry[0]}</th>)
+    return data && data.length > 0 && Object.entries(data[0]).map((entry, i) => <th key={i}>{TableHeadings[entry[0] as keyof typeof TableHeadings]}</th>)
   }, [data]);
 
   const filterData = useCallback(() => {

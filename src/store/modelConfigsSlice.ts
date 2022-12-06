@@ -1,9 +1,9 @@
 import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
 import { deleteModelConfig, fetchModelConfigs, patchModelConfig } from '../api/modelConfigs';
-import { Model } from '../const';
+import { ModelConfig } from '../const';
 import { RootState } from './store';
 
-const modelConfigsAdapter = createEntityAdapter<Model>();
+const modelConfigsAdapter = createEntityAdapter<ModelConfig>();
 
 interface ExtendedEntityAdapterState {
   loading: boolean,

@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { deleteModelConfig, fetchModelConfigs, patchModelConfig } from '../api/modelConfigs';
-import { Model } from '../const';
+import { ModelConfig } from '../const';
 import { useAppDispatch, useAppSelector } from '../hooks';
 import { selectors } from '../store/modelConfigsSlice';
 import DataTable from './DataTable';
@@ -15,7 +15,7 @@ function ModelConfigsPage () {
 
   return (
     <>
-      {configs && <DataTable<Model>
+      {configs && <DataTable<ModelConfig>
         data={configs}
         patchEntity={patchModelConfig}
         deleteEntity={deleteModelConfig}
