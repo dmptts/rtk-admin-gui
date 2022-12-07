@@ -3,8 +3,8 @@ const BASE_URL = 'https://my-json-server.typicode.com/dmptts/admin-db'
 export const ApiUrls = {
   gateways: () => `${BASE_URL}/gateways`,
   gateway: (id: number) => `${BASE_URL}/gateways/${id}`,
-  models: () => `${BASE_URL}/models`,
-  model: (id: number) => `${BASE_URL}/models/${id}`,
+  modelConfigs: () => `${BASE_URL}/models`,
+  modelConfig: (id: number) => `${BASE_URL}/models/${id}`,
 };
 
 export interface Gateway {
@@ -13,7 +13,7 @@ export interface Gateway {
   login: string,
   password: string,
   type: number,
-}
+};
 
 export interface ModelConfig {
   id: number,
@@ -23,8 +23,10 @@ export interface ModelConfig {
   login: string,
   password: string,
   super_password: string,
-}
+};
 
+export type ModelConfigPostData = Omit<ModelConfig, 'id'>;
+  
 export enum TableHeadings {
   id = 'ID',
   name = 'Имя',
@@ -41,4 +43,4 @@ export enum TableHeadings {
   configuration = 'Конфигурация',
   super_password = 'Привелегированный пароль',
   status = 'Статус'
-}
+};

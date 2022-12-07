@@ -1,10 +1,10 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { ApiUrls, ModelConfig } from '../const';
+import { ApiUrls, ModelConfig, ModelConfigPostData } from '../const';
 
 export const fetchModelConfigs = createAsyncThunk<ModelConfig[]>(
-  'models/fetchModels',
+  'models/fetchModelConfigs',
   async (_, { rejectWithValue }) => {
-    const response = await fetch(`${ApiUrls.models()}`);
+    const response = await fetch(`${ApiUrls.modelConfigs()}`);
     
     if (!response.ok) {
       return rejectWithValue('Can\'t fetch models!');
@@ -15,9 +15,9 @@ export const fetchModelConfigs = createAsyncThunk<ModelConfig[]>(
 );
 
 export const patchModelConfig = createAsyncThunk(
-  'models/patchModel',
+  'models/patchModelConfig',
   async (model: ModelConfig, { rejectWithValue }) => {
-    const response = await fetch(`${ApiUrls.model(model.id)}`, {
+    const response = await fetch(`${ApiUrls.modelConfig(model.id)}`, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json;charset=utf-8',
@@ -41,9 +41,9 @@ export const patchModelConfig = createAsyncThunk(
 );
 
 export const deleteModelConfig = createAsyncThunk(
-  'models/deleteModel',
+  'models/deleteModelConfig',
   async (id: number, { rejectWithValue }) => {
-    const response = await fetch(`${ApiUrls.model(id)}`, {
+    const response = await fetch(`${ApiUrls.modelConfig(id)}`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json;charset=utf-8',
@@ -55,5 +55,25 @@ export const deleteModelConfig = createAsyncThunk(
     };
 
     return id;
+  }
+);
+
+export const addModelConfig = createAsyncThunk(
+  'models/addModelConfig',
+  async (data: ModelConfigPostData, { rejectWithValue }) => {
+    const response = await fetch(`${ApiUrls.modelConfigs()}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json;charset=utf-8',
+      },
+      body: JSON.stringify(data),
+    });
+
+    if (!response.ok) {
+      return rejectWithValue('Can\'t delete model!');
+    };
+
+    console.log(await response.json());
+    return (await response.json());
   }
 );
