@@ -1,5 +1,4 @@
 import { useCallback, useEffect, useState } from 'react';
-import { Table } from 'react-bootstrap';
 import Search from './Search';
 import TablePagination from './TablePagination';
 import DataRow from './DataRow';
@@ -9,7 +8,7 @@ import { TableHeadings } from '../const';
 interface DataTableProps<T> {
   data: T[],
   patchEntity: AsyncThunk<any, T, object>,
-  deleteEntity: AsyncThunk<number, number, object>
+  deleteEntity: AsyncThunk<number, number, object>,
 }
 
 function DataTable<T extends { id: number, [key: string]: any }> ({ data, patchEntity, deleteEntity }: DataTableProps<T>) {
@@ -96,7 +95,7 @@ function DataTable<T extends { id: number, [key: string]: any }> ({ data, patchE
 
   return (
     <>
-      <Table>
+      <table>
         <thead>
           <tr>
             {getTableHeadings()}
@@ -106,7 +105,7 @@ function DataTable<T extends { id: number, [key: string]: any }> ({ data, patchE
           {searchState && data.length > 0 && <Search state={searchState} stateSetter={setSearchState} />}
           {renderData()}
         </tbody>
-      </Table>
+      </table>
       <TablePagination
         pagesCount={pagesCount}
         currentPage={currentPage}

@@ -1,8 +1,8 @@
-import ModelConfigsPage from './components/ModelConfigsPage';
+import MainPage from './components/MainPage';
 
 function App() {
   return (
-    <ModelConfigsPage />
+    <MainPage />
   );
 }
 

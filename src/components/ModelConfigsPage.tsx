@@ -5,8 +5,9 @@ import { useAppDispatch, useAppSelector } from '../hooks';
 import { selectors } from '../store/modelConfigsSlice';
 import AddDataForm from './AddDataForm';
 import DataTable from './DataTable';
+import Header from './PageHeader';
 
-function ModelConfigsPage () {
+export default function ModelConfigsPage () {
   const dispatch = useAppDispatch();
   const configs = useAppSelector(selectors.selectAll);
 
@@ -20,6 +21,7 @@ function ModelConfigsPage () {
 
   return (
     <>
+      <Header />
       {
         configs && configs.length > 0 && <AddDataForm<ModelConfigPostData>
           fields={getModelsKeys() as Array<keyof ModelConfigPostData>}
@@ -34,7 +36,5 @@ function ModelConfigsPage () {
         />
       }
     </>
-  )
-}
-
-export default ModelConfigsPage;
+  );
+};
