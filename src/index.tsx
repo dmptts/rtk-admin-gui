@@ -9,11 +9,13 @@ import GlobalStyles from './global-styles';
 import GatewaysPage from './components/GatewaysPage';
 import HostsPage from './components/HostsPage';
 import RegionsPage from './components/RegionsPage';
+import ErrorPage from './components/ErrorPage';
 
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <App />
+    element: <App />,
+    errorElement: <ErrorPage /> 
   },
   {
     path: '/configs',
