@@ -29,9 +29,11 @@ export default createGlobalStyle`
   }
 
   :root {
-    --color-text-main: #333333;
-    --color-bg-header-main: #f2f2f2;
-    --color-bg-active-nav-link: #ffffff;
+    --color-text-main: #343b48;
+    --color-brand-violet: #6d13f5;
+    --color-brand-orange: #ec5d2f;
+    --color-table-bg: #f8f8f8;
+    --color-selected-tr: #e3e8ec;
   }
 
   *,

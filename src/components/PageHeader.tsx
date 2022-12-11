@@ -3,10 +3,6 @@ import styled from 'styled-components';
 import LogoImg from '../img/logo.png';
 import LogoImg2x from '../img/logo@2x.png'
 
-const Header = styled.header`
-  background-color: var(--color-bg-header-main);
-`;
-
 const HeaderContainer = styled.div`
   display: grid;
   grid-template-columns: repeat(1fr, 12);
@@ -15,6 +11,8 @@ const HeaderContainer = styled.div`
 
   min-width: 1280px;
   margin: 0 auto;
+  padding-top: 16px;
+  padding-bottom: 16px;
   padding-left: 60px;
   padding-right: 60px;
 `;
@@ -31,6 +29,7 @@ const HeaderNav = styled.nav`
 
 const HeaderNavList = styled.ul`
   display: flex;
+  column-gap: 40px;
   margin: 0;
   padding: 0;
 
@@ -38,23 +37,47 @@ const HeaderNavList = styled.ul`
 `;
 
 const HeaderNavLink = styled(Link)<{ $isActive: boolean }>`
-  display: block; 
-  padding-top: 24px;
-  padding-bottom: 24px;
-  padding-left: 20px;
-  padding-right: 20px;
-  
+  position: relative;
+
+  display: block;
+
   font-size: 20px;
+  color: #000000;
+
   background-color: ${({ $isActive }) => $isActive
     ? 'var(--color-bg-active-nav-link)'
     : 'transparent'};
+
+  transition: 0.3s ease-in all;
+
+  &::before {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    content: '';
+
+    display: ${({ $isActive }) => $isActive
+      ? 'block'
+      : 'none'};
+    width: 100%;
+    height: 2px;
+
+    background-color: var(--color-brand-violet);
+  }
+
+  &:hover {
+    color: ${({ $isActive }) => $isActive
+      ? '#000000'
+      : 'var(--color-brand-violet)'};
+    cursor: ${({ $isActive }) => $isActive && 'default'};
+  }
 `;
 
 export default function PageHeader () {
   const { pathname } = useLocation();
 
   return (
-    <Header>
+    <header>
       <HeaderContainer>
         <Link to={'/'}>
           <Logo src={LogoImg} srcSet={LogoImg2x} width='27' height='39' alt='Логотип Ростелеком' />
@@ -96,6 +119,6 @@ export default function PageHeader () {
           </HeaderNavList>
         </HeaderNav>
       </HeaderContainer>
-    </Header>
+    </header>
   );
 };
