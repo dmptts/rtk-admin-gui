@@ -49,7 +49,7 @@ interface DataTableProps<T> {
 }
 
 function DataTable<T extends { id: number, [key: string]: any }> ({ data, patchEntity, deleteEntity }: DataTableProps<T>) {
-  const itemsPerPage = 10;
+  const itemsPerPage = 1;
   const [searchState, setSearchState] = useState<{[key in keyof T]: string} | null>(null);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [pagesCount, setPagesCount] = useState<number>(0);
@@ -144,12 +144,12 @@ function DataTable<T extends { id: number, [key: string]: any }> ({ data, patchE
             {renderData()}
           </tbody>
         </Table>
+        <TablePagination
+          pagesCount={pagesCount}
+          currentPage={currentPage}
+          setCurrentPage={setCurrentPage}
+        />
       </TableContainer>
-      <TablePagination
-        pagesCount={pagesCount}
-        currentPage={currentPage}
-        setCurrentPage={setCurrentPage}
-      />
     </>
   );
 };
