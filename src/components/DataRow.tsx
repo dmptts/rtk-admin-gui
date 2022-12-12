@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { useAppDispatch } from '../hooks';
 import CloseIcon from '../img/icon-close.svg';
 import SVG from 'react-inlinesvg';
+import Input from './Input';
 
 const TableCell = styled.td`
   padding-top: 10px;
@@ -16,20 +17,6 @@ const TableCell = styled.td`
   &:last-child {
     padding-right: 20px;
   }
-`;
-
-const Input = styled.input`
-  width: 170px;
-  margin-right: 15px;
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 10px;
-  padding-right: 10px;
-
-  border: 1px solid var(--color-brand-violet);
-  border-radius: 3px;
-  background-color: transparent;
-  outline: none;
 `;
 
 const DeleteBtn = styled.button`

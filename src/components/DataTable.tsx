@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
-// import Search from './Search';
+import Search from './Search';
 import TablePagination from './TablePagination';
 import DataRow from './DataRow';
 import { AsyncThunk } from '@reduxjs/toolkit';
@@ -17,6 +17,7 @@ const TableContainer = styled.div`
 
 const Table = styled.table`
   width: 100%;
+  margin-bottom: 25px;
   padding: 20px;
   border: none;
   border-collapse: collapse;
@@ -49,7 +50,7 @@ interface DataTableProps<T> {
 }
 
 function DataTable<T extends { id: number, [key: string]: any }> ({ data, patchEntity, deleteEntity }: DataTableProps<T>) {
-  const itemsPerPage = 1;
+  const itemsPerPage = 10;
   const [searchState, setSearchState] = useState<{[key in keyof T]: string} | null>(null);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [pagesCount, setPagesCount] = useState<number>(0);
@@ -140,7 +141,7 @@ function DataTable<T extends { id: number, [key: string]: any }> ({ data, patchE
             </tr>
           </thead>
           <tbody>
-            {/* {searchState && data.length > 0 && <Search state={searchState} stateSetter={setSearchState} />} */}
+            {searchState && data.length > 0 && <Search state={searchState} stateSetter={setSearchState} />}
             {renderData()}
           </tbody>
         </Table>
