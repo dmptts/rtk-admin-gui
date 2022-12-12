@@ -1,9 +1,46 @@
 import { useCallback, useEffect, useState } from 'react';
-import Search from './Search';
+// import Search from './Search';
 import TablePagination from './TablePagination';
 import DataRow from './DataRow';
 import { AsyncThunk } from '@reduxjs/toolkit';
 import { TableHeadings } from '../const';
+import styled from 'styled-components';
+
+const TableContainer = styled.div`
+  padding-top: 20px;
+  padding-bottom: 20px;
+
+  border-radius: 20px;
+  background-color: var(--color-table-bg);
+  overflow-x: auto;
+`;
+
+const Table = styled.table`
+  width: 100%;
+  padding: 20px;
+  border: none;
+  border-collapse: collapse;
+`;
+
+const TableHeading = styled.th`
+  max-width: 210px;
+  height: 60px;
+  padding-right: 20px;
+
+  font-size: 20px;
+  font-weight: 500;
+  color: var(--color-brand-violet);
+  text-align: left;
+  vertical-align: top;
+
+  &:first-child {
+    padding-left: 20px;
+  }
+
+  &:last-child {
+    padding-right: 20px;
+  }
+`;
 
 interface DataTableProps<T> {
   data: T[],
@@ -12,7 +49,7 @@ interface DataTableProps<T> {
 }
 
 function DataTable<T extends { id: number, [key: string]: any }> ({ data, patchEntity, deleteEntity }: DataTableProps<T>) {
-  const itemsPerPage = 5;
+  const itemsPerPage = 10;
   const [searchState, setSearchState] = useState<{[key in keyof T]: string} | null>(null);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [pagesCount, setPagesCount] = useState<number>(0);
@@ -28,7 +65,7 @@ function DataTable<T extends { id: number, [key: string]: any }> ({ data, patchE
   }, [data]);
 
   const getTableHeadings = useCallback(() => {
-    return data && data.length > 0 && Object.entries(data[0]).map((entry, i) => <th key={i}>{TableHeadings[entry[0] as keyof typeof TableHeadings]}</th>)
+    return data && data.length > 0 && Object.entries(data[0]).map((entry, i) => <TableHeading key={i}>{TableHeadings[entry[0] as keyof typeof TableHeadings]}</TableHeading>)
   }, [data]);
 
   const filterData = useCallback(() => {
@@ -95,17 +132,19 @@ function DataTable<T extends { id: number, [key: string]: any }> ({ data, patchE
 
   return (
     <>
-      <table>
-        <thead>
-          <tr>
-            {getTableHeadings()}
-          </tr>
-        </thead>
-        <tbody>
-          {searchState && data.length > 0 && <Search state={searchState} stateSetter={setSearchState} />}
-          {renderData()}
-        </tbody>
-      </table>
+      <TableContainer>
+        <Table cellSpacing="0" cellPadding="0">
+          <thead>
+            <tr>
+              {getTableHeadings()}
+            </tr>
+          </thead>
+          <tbody>
+            {/* {searchState && data.length > 0 && <Search state={searchState} stateSetter={setSearchState} />} */}
+            {renderData()}
+          </tbody>
+        </Table>
+      </TableContainer>
       <TablePagination
         pagesCount={pagesCount}
         currentPage={currentPage}
