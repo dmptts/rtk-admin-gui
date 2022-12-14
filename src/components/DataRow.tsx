@@ -49,7 +49,7 @@ const DeleteBtn = styled.button`
   &:active svg {
     stroke: var(--color-brand-violet);
   }
-`
+`;
 
 interface DataRowProps<T> {
   entity: T,
