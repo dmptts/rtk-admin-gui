@@ -1,6 +1,7 @@
 import React, { Dispatch } from 'react';
 import styled from 'styled-components';
-import { TableHeadings } from '../const';
+import { DataHeadingsTranslations } from '../const';
+import { sortPropertiesByTemplate } from '../utils';
 import Input from './Input';
 
 const TableCell = styled.td`
@@ -35,11 +36,14 @@ function Search<T extends SearchStateI> ({state, stateSetter}: SearchProps<T>) {
 
   return (
     <tr>
-      {Object.keys(state).map((param, i) => {
-        return <TableCell key={i}>
-          <Input type="text" name={param} value={state[param as keyof T]} onChange={changeHandler} placeholder={`Поиск по ${TableHeadings[param as keyof typeof TableHeadings]}`}/>
-        </TableCell>
-      })}
+      {Object.keys(state)
+        .sort(sortPropertiesByTemplate)
+        .map((param, i) => {
+          return <TableCell key={i}>
+            <Input type="text" name={param} value={state[param as keyof T]} onChange={changeHandler} placeholder={`Поиск по ${DataHeadingsTranslations[param as keyof typeof DataHeadingsTranslations]}`}/>
+          </TableCell>
+        }
+      )}
     </tr>
   )
 }

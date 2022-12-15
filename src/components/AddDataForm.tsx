@@ -5,7 +5,7 @@ import Button from './Button';
 import Input from './Input';
 import styled from 'styled-components';
 import { visuallyHidden } from '../global-styles';
-import { TableHeadings } from '../const';
+import { DataHeadingsTranslations } from '../const';
 import SVG from 'react-inlinesvg';
 import PlusIcon from '../img/icon-plus.svg';
 
@@ -117,7 +117,7 @@ export default function AddDataForm<T> ({ fields, addEntity }: addDataFormProps<
                 id={`${formField[0]}-field`}
                 value={formField[1]}
                 onChange={inputChangeHandler}
-                placeholder={TableHeadings[formField[0] as keyof typeof TableHeadings]}
+                placeholder={DataHeadingsTranslations[formField[0] as keyof typeof DataHeadingsTranslations]}
                 required
               />
             </React.Fragment>

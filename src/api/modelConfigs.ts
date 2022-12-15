@@ -70,10 +70,9 @@ export const addModelConfig = createAsyncThunk(
     });
 
     if (!response.ok) {
-      return rejectWithValue('Can\'t delete model!');
+      return rejectWithValue('Can\'t add model!');
     };
-
-    console.log(await response.json());
+    
     return (await response.json());
   }
 );

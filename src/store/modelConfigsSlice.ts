@@ -1,5 +1,5 @@
 import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
-import { deleteModelConfig, fetchModelConfigs, patchModelConfig } from '../api/modelConfigs';
+import { addModelConfig, deleteModelConfig, fetchModelConfigs, patchModelConfig } from '../api/modelConfigs';
 import { ModelConfig } from '../const';
 import { RootState } from './store';
 
@@ -64,6 +64,18 @@ const configsSlice = createSlice({
         state.loading = false;
       })
       .addCase(deleteModelConfig.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload as string;
+      })
+      .addCase(addModelConfig.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(addModelConfig.fulfilled, (state, action) => {
+        modelConfigsAdapter.addOne(state, action.payload);
+        state.loading = false;
+      })
+      .addCase(addModelConfig.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload as string;
       })

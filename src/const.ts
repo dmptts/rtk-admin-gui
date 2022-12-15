@@ -27,10 +27,10 @@ export interface ModelConfig {
 
 export type ModelConfigPostData = Omit<ModelConfig, 'id'>;
   
-export enum TableHeadings {
+export enum DataHeadingsTranslations {
   id = 'ID',
   name = 'Имя',
-  description = 'Описание',
+  region = 'Регион',
   gateway_id = 'ID шлюза',
   ip = 'IP',
   login = 'Логин',
@@ -38,9 +38,27 @@ export enum TableHeadings {
   type = 'Тип',
   title = 'Название',
   host = 'Хост',
-  region = 'Регион',
   model = 'Модель',
+  description = 'Описание',
   configuration = 'Конфигурация',
   super_password = 'Привелегированный пароль',
   status = 'Статус'
 };
+
+export const propertiesOrder = [
+  'id',
+  'gateway_id',
+  'name',
+  'model',
+  'region',
+  'ip',
+  'login',
+  'type',
+  'title',
+  'host',
+  'configuration',
+  'description',
+  'status',
+  'password',
+  'super_password',
+]

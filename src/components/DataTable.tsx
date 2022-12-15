@@ -2,8 +2,9 @@ import { useCallback, useEffect, useState } from 'react';
 import Search from './Search';
 import TablePagination from './TablePagination';
 import DataRow from './DataRow';
+import { sortPropertiesByTemplate } from '../utils';
 import { AsyncThunk } from '@reduxjs/toolkit';
-import { TableHeadings } from '../const';
+import { DataHeadingsTranslations } from '../const';
 import styled from 'styled-components';
 
 const TableContainer = styled.div`
@@ -66,7 +67,13 @@ function DataTable<T extends { id: number, [key: string]: any }> ({ data, patchE
   }, [data]);
 
   const getTableHeadings = useCallback(() => {
-    return data && data.length > 0 && Object.entries(data[0]).map((entry, i) => <TableHeading key={i}>{TableHeadings[entry[0] as keyof typeof TableHeadings]}</TableHeading>)
+    return data && data.length > 0 && Object.entries(data[0])
+      .sort((a, b) => sortPropertiesByTemplate(a[0], b[0]))
+      .map((entry, i) => {
+        return <TableHeading key={i}>
+          {DataHeadingsTranslations[entry[0] as keyof typeof DataHeadingsTranslations]}
+        </TableHeading>
+      })
   }, [data]);
 
   const filterData = useCallback(() => {
@@ -87,7 +94,7 @@ function DataTable<T extends { id: number, [key: string]: any }> ({ data, patchE
         return results.every((result) => result === true) && entity;
       } else {
         return false;
-      }
+      };
     }));
   }, [data, searchState]);
 

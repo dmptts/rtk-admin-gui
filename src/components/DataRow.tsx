@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import { AsyncThunk } from '@reduxjs/toolkit';
 import { useState } from 'react';
 import { useAppDispatch } from '../hooks';
+import { sortPropertiesByTemplate } from '../utils';
 import CloseIcon from '../img/icon-close.svg';
 import SVG from 'react-inlinesvg';
 import Input from './Input';
@@ -71,23 +72,35 @@ function DataRow<T extends { id: number, [key: string]: any }> ({ entity, patchE
 
   const deleteBtnClickHandler = () => {
     dispatch(deleteEntity(data.id))
-  }
+  };
 
   const inputBlurHandler = () => {
     dispatch(patchEntity(data));
   };
 
-  return (
-    <tr >
-      {Object.entries(data).map((entry, i) => {
+  const renderData = () => {
+    return Object.entries(data)
+      .sort((a, b) => sortPropertiesByTemplate(a[0], b[0]))
+      .map((entry, i) => {
         if (entry[0] === 'id') {
           return <TableCell key={i}>{entry[1]}</TableCell>
         } else {
           return <TableCell key={i}>
-            <Input type="text" name={entry[0]} value={entry[1]} onChange={inputChangeHandler} onBlur={inputBlurHandler} />
+            <Input
+              type="text"
+              name={entry[0]}
+              value={entry[1]}
+              onChange={inputChangeHandler}
+              onBlur={inputBlurHandler}
+            />
           </TableCell>
         };
-      })}
+      });
+  };
+
+  return (
+    <tr>
+      {renderData()}
       <TableCell>
         <DeleteBtn
           type='button'
