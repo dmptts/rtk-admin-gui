@@ -120,23 +120,22 @@ function DataTable<T extends { id: number, [key: string]: any }> ({ data, patchE
   }, [currentPage, deleteEntity, filteredData, patchEntity])
 
   useEffect(() => {
-    if (data.length > 0) {
+    if (data.length > 0 && !searchState) {
       getInitialSearchState();
     }
-  }, [data, getInitialSearchState]);
+  }, [data, searchState, getInitialSearchState]);
 
   useEffect(() => {
-    if (data) {
-      filterData();
-    };
-  }, [data, searchState, filterData])
+    filterData();
+  }, [searchState, filterData]);
 
   useEffect(() => {
-    if (filteredData) {
-      setCurrentPage(1);
-      getPagesCount();
-    };
-  }, [filteredData, getPagesCount])
+    getPagesCount();
+  }, [filteredData, getPagesCount]);
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [pagesCount]);
 
   return (
     <>
