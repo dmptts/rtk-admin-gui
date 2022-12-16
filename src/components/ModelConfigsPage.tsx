@@ -6,11 +6,12 @@ import { selectors } from '../store/modelConfigsSlice';
 import AddDataForm from './AddDataForm';
 import Container from './Container';
 import DataTable from './DataTable';
-import Header from './PageHeader';
+import PageHeader from './PageHeader';
 
 export default function ModelConfigsPage () {
   const dispatch = useAppDispatch();
   const configs = useAppSelector(selectors.selectAll);
+  const error = useAppSelector((state) => state.models.error);
 
   const getModelsKeys = () => {
     return Object.keys(configs[0]).filter((key) => key !== 'id');
@@ -22,7 +23,7 @@ export default function ModelConfigsPage () {
 
   return (
     <>
-      <Header />
+      <PageHeader />
       <Container>
         {
           configs && configs.length > 0 && <AddDataForm<ModelConfigPostData>
@@ -35,6 +36,7 @@ export default function ModelConfigsPage () {
             data={configs}
             patchEntity={patchModelConfig}
             deleteEntity={deleteModelConfig}
+            error={error}
           />
         }
       </Container>

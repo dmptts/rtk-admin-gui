@@ -48,9 +48,10 @@ interface DataTableProps<T> {
   data: T[],
   patchEntity: AsyncThunk<any, T, object>,
   deleteEntity: AsyncThunk<number, number, object>,
+  error: null | string,
 }
 
-function DataTable<T extends { id: number, [key: string]: any }> ({ data, patchEntity, deleteEntity }: DataTableProps<T>) {
+function DataTable<T extends { id: number, [key: string]: any }> ({ data, patchEntity, deleteEntity, error }: DataTableProps<T>) {
   const itemsPerPage = 10;
   const [searchState, setSearchState] = useState<{[key in keyof T]: string} | null>(null);
   const [currentPage, setCurrentPage] = useState<number>(1);
@@ -148,6 +149,7 @@ function DataTable<T extends { id: number, [key: string]: any }> ({ data, patchE
           </thead>
           <tbody>
             {searchState && data.length > 0 && <Search state={searchState} stateSetter={setSearchState} />}
+            {error && <p>{error}</p>}
             {renderData()}
           </tbody>
         </Table>

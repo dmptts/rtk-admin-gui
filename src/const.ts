@@ -5,6 +5,8 @@ export const ApiUrls = {
   gateway: (id: number) => `${BASE_URL}/gateways/${id}`,
   modelConfigs: () => `${BASE_URL}/models`,
   modelConfig: (id: number) => `${BASE_URL}/models/${id}`,
+  regions: () => `${BASE_URL}/regions`,
+  region: (id: number) => `${BASE_URL}/regions/${id}`
 };
 
 export interface Gateway {
@@ -26,6 +28,15 @@ export interface ModelConfig {
 };
 
 export type ModelConfigPostData = Omit<ModelConfig, 'id'>;
+
+export interface Region {
+  id: number,
+  name: string,
+  description: string,
+  gateway_id: number
+};
+
+export type RegionPostData = Omit<Region, 'id'>;
   
 export enum DataHeadingsTranslations {
   id = 'ID',
@@ -47,18 +58,18 @@ export enum DataHeadingsTranslations {
 
 export const propertiesOrder = [
   'id',
-  'gateway_id',
   'name',
   'model',
   'region',
   'ip',
-  'login',
   'type',
   'title',
   'host',
   'configuration',
   'description',
   'status',
+  'gateway_id',
+  'login',
   'password',
   'super_password',
 ]

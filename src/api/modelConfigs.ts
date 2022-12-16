@@ -73,9 +73,6 @@ export const addModelConfig = createAsyncThunk(
       return rejectWithValue('Can\'t add model!');
     };
     
-    const parsed = await response.json();
-    // return (await response.json());
-    console.log(parsed);
-    return parsed;
+    return (await response.json());
   }
 );
