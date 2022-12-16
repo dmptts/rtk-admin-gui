@@ -1,10 +1,12 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { AsyncThunk } from '@reduxjs/toolkit';
 import { useAppDispatch } from '../hooks';
+import styled from 'styled-components';
+import { Form, Formik } from 'formik';
+import { validationSchema } from '../utils';
+import { visuallyHidden } from '../global-styles';
 import Button from './Button';
 import Input from './Input';
-import styled from 'styled-components';
-import { visuallyHidden } from '../global-styles';
 import { DataHeadingsTranslations } from '../const';
 import SVG from 'react-inlinesvg';
 import PlusIcon from '../img/icon-plus.svg';
@@ -23,7 +25,7 @@ const FormContainer = styled.div<{ isOpened: boolean }>`
   };
 `;
 
-const Form = styled.form`
+const StyledForm = styled(Form)`
   display: flex;
   flex-wrap: wrap;
   margin-top: 20px;
@@ -51,6 +53,12 @@ const SubmitButton = styled(Button)`
   &:hover {
     background-color: #1f811f;
   }
+
+  &:disabled,
+  &[disabled] {
+    background-color: #d3d3d3;
+    cursor: default;
+  }
 `;
 
 interface addDataFormProps<T> {
@@ -61,36 +69,19 @@ interface addDataFormProps<T> {
 export default function AddDataForm<T> ({ fields, addEntity }: addDataFormProps<T>) {
   const dispatch = useAppDispatch();
   const [isOpened, setIsOpened] = useState<boolean>(false);
-  const [formState, setFormState] = useState<{[key: string]: string} | null>(null);
 
-  const getInitialFormState = useCallback(() => {
-    setFormState(
-      fields.reduce((state, value) => {
-        state[value as keyof {[key: string]: string}] = '';
-        return state;
-      }, {} as {[key: string]: string})
-    );
-  }, [fields]);
-
-  const inputChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormState({
-      ...formState,
-      [e.target.name]: e.target.value,
-    });
+  const getInitialValues = () => {
+    return fields.reduce((state, value) => {
+      state[value as keyof {[key: string]: string}] = '';
+      return state;
+    }, {} as {[key: string]: string})
   };
 
-  const formSubmitHandler = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    if (formState) {
-      dispatch(addEntity(formState as T));
+  const formSubmitHandler = (values: {[key: string]: string} ) => {
+    if (values) {
+      dispatch(addEntity(values as T));
     };
   };
-
-  useEffect(() => {
-    if (fields) {
-      getInitialFormState();
-    };
-  }, [fields, getInitialFormState]);
   
   return (
     <FormContainer isOpened={isOpened}>
@@ -106,24 +97,48 @@ export default function AddDataForm<T> ({ fields, addEntity }: addDataFormProps<
         </ToggleButton>
       }
       {
-        isOpened && 
-        <Form onSubmit={formSubmitHandler}>
-          {formState && Object.entries(formState).map((formField, i) => {
-            return <React.Fragment key={i}>
-              <Label htmlFor={`${formField[0]}-field`}>{formField[0]}</Label>
-              <Input
-                type="text"
-                name={formField[0]}
-                id={`${formField[0]}-field`}
-                value={formField[1]}
-                onChange={inputChangeHandler}
-                placeholder={DataHeadingsTranslations[formField[0] as keyof typeof DataHeadingsTranslations]}
-                required
-              />
-            </React.Fragment>
-          })}
-          <SubmitButton type='submit'>Отправить</SubmitButton>
-        </Form>
+        isOpened
+        && <Formik
+          initialValues={getInitialValues()}
+          validateOnBlur
+          onSubmit={formSubmitHandler}
+          validationSchema={validationSchema}
+        >
+          {({
+            values,
+            errors,
+            touched,
+            dirty,
+            isValid,
+            handleChange,
+          }) => <StyledForm>
+            {Object.entries(values).map((formField, i) => {
+              return <React.Fragment key={i}>
+                {
+                  touched[formField[0]]
+                  && errors[formField[0]]
+                  && <p>{errors[formField[0]]}</p>
+                }
+                <Label htmlFor={`${formField[0]}-field`}>{formField[0]}</Label>
+                <Input
+                  type="text"
+                  name={formField[0]}
+                  id={`${formField[0]}-field`}
+                  value={values[formField[1]]}
+                  onChange={handleChange}
+                  placeholder={DataHeadingsTranslations[formField[0] as keyof typeof DataHeadingsTranslations]}
+                />
+              </React.Fragment>
+            })}
+
+            <SubmitButton
+              type='submit'
+              disabled={!isValid || !dirty}
+            >
+              Отправить
+            </SubmitButton>
+          </StyledForm>}
+        </Formik>
       }
     </FormContainer>
   );

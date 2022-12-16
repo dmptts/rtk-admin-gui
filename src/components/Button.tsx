@@ -30,6 +30,11 @@ const StyledButton = styled.button<{ orange?: boolean }>`
   &:active {
     background-color: #b12f01;
   }
+
+  &:disabled,
+  &[disabled] {
+    background-color: #ff5733;
+  }
 `;
 
 export default function Button (props: ButtonHTMLAttributes<HTMLButtonElement>) {
