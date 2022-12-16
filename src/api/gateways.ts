@@ -1,5 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { ApiUrls } from '../const';
+import { ApiUrls, GatewayPostData } from '../const';
 import { Gateway as GatewayInterface } from '../const';
 
 export const fetchGateways = createAsyncThunk<GatewayInterface[], undefined, { rejectValue: string }>(
@@ -53,5 +53,27 @@ export const deleteGateway = createAsyncThunk(
     }
     
     return id;
+  }
+);
+
+export const addGateway = createAsyncThunk(
+  'gateways/addgateways',
+  async (data: GatewayPostData, { rejectWithValue }) => {
+    const response = await fetch(`${ApiUrls.gateways()}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json;charset=utf-8',
+      },
+      body: JSON.stringify(data),
+    });
+
+    if (!response.ok) {
+      return rejectWithValue('Can\'t add gateway!');
+    };
+    
+    const parsed = await response.json();
+    // return (await response.json());
+    console.log(parsed);
+    return parsed;
   }
 );

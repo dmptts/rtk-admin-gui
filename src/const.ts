@@ -17,6 +17,8 @@ export interface Gateway {
   type: number,
 };
 
+export type GatewayPostData = Omit<Gateway, 'id'>;
+
 export interface ModelConfig {
   id: number,
   model: string,

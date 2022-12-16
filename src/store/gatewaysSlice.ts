@@ -1,4 +1,4 @@
-import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
+import { AnyAction, createEntityAdapter, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { deleteGateway, fetchGateways, patchGateway } from '../api/gateways';
 import { Gateway as GatewayInterface } from '../const';
 import { RootState } from './store';
@@ -6,14 +6,22 @@ import { RootState } from './store';
 const gatewaysAdapter = createEntityAdapter<GatewayInterface>();
 
 interface ExtendedEntityAdapterState {
-  loading: 'idle' | 'pending' | 'success' | 'error',
+  loading: boolean,
   error: null | string,
 }
 
 const initialState: ExtendedEntityAdapterState = {
-  loading: 'idle',
+  loading: false,
   error: null,
 }
+
+const isError = (action: AnyAction) => {
+  return action.type.endsWith('rejected');
+};
+
+const isPending = (action: AnyAction) => {
+  return action.type.endsWith('pending');
+};
 
 const gatewaysSlice = createSlice({
   name: 'gateways',
@@ -21,21 +29,9 @@ const gatewaysSlice = createSlice({
   reducers: {},
   extraReducers(builder) {
     builder
-      .addCase(fetchGateways.pending, (state) => {
-        state.loading = 'pending';
-        state.error = null;
-      })
       .addCase(fetchGateways.fulfilled, (state, action) => {
         gatewaysAdapter.addMany(state, action.payload);
-        state.loading = 'success';
-      })
-      .addCase(fetchGateways.rejected, (state, action) => {
-        state.loading = 'error';
-        state.error = action.payload as string;
-      })
-      .addCase(patchGateway.pending, (state) => {
-        state.loading = 'pending';
-        state.error = null;
+        state.loading = false;
       })
       .addCase(patchGateway.fulfilled, (state, action) => {
         gatewaysAdapter.updateOne(state, {
@@ -46,23 +42,19 @@ const gatewaysSlice = createSlice({
             password: action.payload.password,
           }
         });
-        state.loading = 'success';
-      })
-      .addCase(patchGateway.rejected, (state, action) => {
-        state.loading = 'error';
-        state.error = action.payload as string;
-      })
-      .addCase(deleteGateway.pending, (state) => {
-        state.loading = 'pending';
-        state.error = null;
+        state.loading = false;
       })
       .addCase(deleteGateway.fulfilled, (state, action) => {
         gatewaysAdapter.removeOne(state, action.payload);
-        state.loading = 'success';
+        state.loading = false;
       })
-      .addCase(deleteGateway.rejected, (state, action) => {
-        state.loading = 'error';
-        state.error = action.payload as string;
+      .addMatcher(isError, (state, action: PayloadAction<string>) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      .addMatcher(isPending, (state) => {
+        state.loading = true;
+        state.error = null
       })
   },
 });
