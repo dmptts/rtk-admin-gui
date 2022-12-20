@@ -3,6 +3,7 @@ import gatewayReducer from './gatewaysSlice';
 import modelConfigsReducer from './modelConfigsSlice';
 import regionsReducer from './regionsSlice';
 import hostsReducer from './hostsSlice';
+import alertsReducer from './alertsSlice';
 
 const store = configureStore({
   reducer: {
@@ -10,6 +11,7 @@ const store = configureStore({
     models: modelConfigsReducer,
     regions: regionsReducer,
     hosts: hostsReducer,
+    alerts: alertsReducer,
   },
 });
 

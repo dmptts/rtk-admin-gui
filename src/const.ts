@@ -94,4 +94,9 @@ export const propertiesOrder = [
   'login',
   'password',
   'super_password',
-]
+];
+
+export interface IAlert {
+  message: string,
+  type: 'success' | 'error' | '',
+};
