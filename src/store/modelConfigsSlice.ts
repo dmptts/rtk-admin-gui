@@ -29,6 +29,9 @@ const configsSlice = createSlice({
   reducers: {},
   extraReducers(builder) {
     builder
+      .addCase(fetchModelConfigs.pending, (state) => {
+        state.loading = true;
+      })
       .addCase(fetchModelConfigs.fulfilled, (state, action) => {
         modelConfigsAdapter.addMany(state, action.payload);
         state.loading = false;
@@ -60,7 +63,6 @@ const configsSlice = createSlice({
         state.error = action.payload;
       })
       .addMatcher(isPending, (state) => {
-        state.loading = true;
         state.error = null
       })
   },

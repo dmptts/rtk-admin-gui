@@ -63,7 +63,7 @@ const SubmitButton = styled(Button)`
 
 interface addDataFormProps<T> {
   fields: Array<keyof T>,
-  addEntity: AsyncThunk<any, T, object>,
+  addEntity: AsyncThunk<any, Omit<T, 'id'>, object>,
 };
 
 export default function AddDataForm<T> ({ fields, addEntity }: addDataFormProps<T>) {

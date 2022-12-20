@@ -1,10 +1,16 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import ErrorPage from './components/ErrorPage';
-import GatewaysPage from './components/GatewaysPage';
-import HostsPage from './components/HostsPage';
 import MainPage from './components/MainPage';
-import ModelConfigsPage from './components/ModelConfigsPage';
-import RegionsPage from './components/RegionsPage';
+import DataTablePage from './components/DataTablePage';
+import { addModelConfig, deleteModelConfig, fetchModelConfigs, patchModelConfig } from './api/modelConfigs';
+import { selectors as modelConfigSelectors } from './store/modelConfigsSlice';
+import { Gateway, Host, ModelConfig, Region } from './const';
+import { addGateway, deleteGateway, fetchGateways, patchGateway } from './api/gateways';
+import { selectors as gatewaySelectors } from './store/gatewaysSlice';
+import { addHost, deleteHost, fetchHosts, patchHost } from './api/hosts';
+import { selectors as hostSelectors } from './store/hostsSlice';
+import { addRegion, deleteRegion, fetchRegions, patchRegion } from './api/regions';
+import { selectors as regionSelectors } from './store/regionsSlice';
 
 const router = createBrowserRouter([
   {
@@ -14,19 +20,51 @@ const router = createBrowserRouter([
   },
   {
     path: '/configs',
-    element: <ModelConfigsPage />
+    element: <DataTablePage
+      <ModelConfig>
+      fetchAction={fetchModelConfigs}
+      addAction={addModelConfig}
+      patchAction={patchModelConfig}
+      deleteAction={deleteModelConfig}
+      selectors={modelConfigSelectors}
+      slice='models'
+    />,
   },
   {
     path: '/gateways',
-    element: <GatewaysPage />
+    element: <DataTablePage
+      <Gateway>
+      fetchAction={fetchGateways}
+      addAction={addGateway}
+      patchAction={patchGateway}
+      deleteAction={deleteGateway}
+      selectors={gatewaySelectors}
+      slice='gateways'
+    />,
   },
   {
     path: '/hosts',
-    element: <HostsPage />
+    element: <DataTablePage
+      <Host>
+      fetchAction={fetchHosts}
+      addAction={addHost}
+      patchAction={patchHost}
+      deleteAction={deleteHost}
+      selectors={hostSelectors}
+      slice='hosts'
+    />,
   },
   {
     path: '/regions',
-    element: <RegionsPage />
+    element: <DataTablePage
+      <Region>
+      fetchAction={fetchRegions}
+      addAction={addRegion}
+      patchAction={patchRegion}
+      deleteAction={deleteRegion}
+      selectors={regionSelectors}
+      slice='regions'
+    />,
   }
 ]);
 

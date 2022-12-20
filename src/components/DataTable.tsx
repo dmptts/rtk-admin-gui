@@ -51,7 +51,12 @@ interface DataTableProps<T> {
   error: null | string,
 }
 
-function DataTable<T extends { id: number, [key: string]: any }> ({ data, patchEntity, deleteEntity, error }: DataTableProps<T>) {
+function DataTable<T extends { id: number, [key: string]: any }> ({ 
+  data,
+  patchEntity,
+  deleteEntity,
+  error
+}: DataTableProps<T>) {
   const itemsPerPage = 10;
   const [searchState, setSearchState] = useState<{[key in keyof T]: string} | null>(null);
   const [currentPage, setCurrentPage] = useState<number>(1);
@@ -78,25 +83,29 @@ function DataTable<T extends { id: number, [key: string]: any }> ({ data, patchE
   }, [data]);
 
   const filterData = useCallback(() => {
-    setFilteredData(data.filter((entity) => {
-      if (searchState) {
-        const results = [];
-  
-        for (const key in entity) {
-          if (searchState[key] === '') {
-            results.push(true);
-          } else if (entity[key as keyof T].toString().toLowerCase().includes(searchState[key].toLowerCase())) {
-            results.push(true);
-          } else {
-            results.push(false);
+
+      setFilteredData(data.filter((entity) => {
+        if (searchState) {
+          const results = [];
+    
+          for (const key in entity) {
+            if (searchState[key] === undefined) {
+              return false;
+            } else if (searchState[key] === '') {
+              results.push(true);
+            } else if (entity[key as keyof T].toString().toLowerCase().includes(searchState[key].toLowerCase())) {
+              results.push(true);
+            } else {
+              results.push(false);
+            };
           };
+    
+          return results.every((result) => result === true) && entity;
+        } else {
+          return false;
         };
-  
-        return results.every((result) => result === true) && entity;
-      } else {
-        return false;
-      };
-    }));
+      }));
+
   }, [data, searchState]);
 
   const getPagesCount = useCallback(() => {

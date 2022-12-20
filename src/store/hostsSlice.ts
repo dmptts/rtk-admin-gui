@@ -29,6 +29,9 @@ const hostsSlice = createSlice({
   reducers: {},
   extraReducers(builder) {
     builder
+      .addCase(fetchHosts.pending, (state) => {
+        state.loading = true;
+      })
       .addCase(fetchHosts.fulfilled, (state, action) => {
         hostsAdapter.addMany(state, action.payload);
         state.loading = false;
@@ -66,7 +69,6 @@ const hostsSlice = createSlice({
         state.error = action.payload;
       })
       .addMatcher(isPending, (state) => {
-        state.loading = true;
         state.error = null
       })
   },

@@ -29,6 +29,9 @@ const gatewaysSlice = createSlice({
   reducers: {},
   extraReducers(builder) {
     builder
+      .addCase(fetchGateways.pending, (state) => {
+        state.loading = true;
+      })
       .addCase(fetchGateways.fulfilled, (state, action) => {
         gatewaysAdapter.addMany(state, action.payload);
         state.loading = false;
@@ -53,7 +56,6 @@ const gatewaysSlice = createSlice({
         state.error = action.payload;
       })
       .addMatcher(isPending, (state) => {
-        state.loading = true;
         state.error = null
       })
   },

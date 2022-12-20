@@ -29,6 +29,9 @@ const regionsSlice = createSlice({
   reducers: {},
   extraReducers(builder) {
     builder
+      .addCase(fetchRegions.pending, (state) => {
+        state.loading = true;
+      })
       .addCase(fetchRegions.fulfilled, (state, action) => {
         regionsAdapter.addMany(state, action.payload);
         state.loading = false;
@@ -57,7 +60,6 @@ const regionsSlice = createSlice({
         state.error = action.payload;
       })
       .addMatcher(isPending, (state) => {
-        state.loading = true;
         state.error = null
       })
   },

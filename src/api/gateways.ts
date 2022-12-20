@@ -2,7 +2,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { ApiUrls, GatewayPostData } from '../const';
 import { Gateway as GatewayInterface } from '../const';
 
-export const fetchGateways = createAsyncThunk<GatewayInterface[], undefined, { rejectValue: string }>(
+export const fetchGateways = createAsyncThunk<GatewayInterface[]>(
   'gateways/fetchGateways',
   async (_, { rejectWithValue }) => {
     const response = await fetch(`${ApiUrls.gateways()}`)
