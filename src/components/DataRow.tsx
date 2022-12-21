@@ -8,9 +8,6 @@ import SVG from 'react-inlinesvg';
 import Input from './Input';
 
 const TableCell = styled.td`
-  padding-top: 10px;
-  padding-bottom: 10px;
-
   &:first-child {
     padding-left: 20px;
   }
@@ -58,7 +55,7 @@ interface DataRowProps<T> {
   deleteEntity: AsyncThunk<number, number, object>,
 };
 
-function DataRow<T extends { id: number, [key: string]: any }> ({ entity, patchEntity, deleteEntity }: DataRowProps<T>) {
+export default function DataRow<T extends { id: number, [key: string]: any }> ({ entity, patchEntity, deleteEntity }: DataRowProps<T>) {
   const dispatch = useAppDispatch();
   const [data, setData] = useState<T>(entity);
 
@@ -113,5 +110,3 @@ function DataRow<T extends { id: number, [key: string]: any }> ({ entity, patchE
     </tr>
   );
 };
-
-export default DataRow;

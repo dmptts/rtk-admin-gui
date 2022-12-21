@@ -5,28 +5,21 @@ import { sortPropertiesByTemplate } from '../utils';
 import Input from './Input';
 
 const TableCell = styled.td`
-  padding-top: 10px;
-  padding-bottom: 10px;
-
   &:first-child {
     padding-left: 20px;
-  }
-
-  &:last-child {
-    padding-right: 20px;
   }
 `;
 
 interface SearchProps<T> {
   state: T,
   stateSetter: Dispatch<T>
-}
+};
 
 interface SearchStateI {
   [key: string]: string,
-}
+};
 
-function Search<T extends SearchStateI> ({state, stateSetter}: SearchProps<T>) {
+export default function Search<T extends SearchStateI> ({state, stateSetter}: SearchProps<T>) {
   const changeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     stateSetter({
       ...state,
@@ -44,8 +37,7 @@ function Search<T extends SearchStateI> ({state, stateSetter}: SearchProps<T>) {
           </TableCell>
         }
       )}
+      <td width='56px'></td>
     </tr>
-  )
-}
-
-export default Search;
+  );
+};

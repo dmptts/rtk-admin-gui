@@ -19,13 +19,11 @@ const TableContainer = styled.div`
 const Table = styled.table`
   width: 100%;
   margin-bottom: 25px;
-  padding: 20px;
-  border: none;
-  border-collapse: collapse;
+
+  border-spacing:10px;
 `;
 
 const TableHeading = styled.th`
-  max-width: 210px;
   height: 60px;
   padding-right: 20px;
 
@@ -49,9 +47,9 @@ interface DataTableProps<T> {
   patchEntity: AsyncThunk<any, T, object>,
   deleteEntity: AsyncThunk<number, number, object>,
   error: null | string,
-}
+};
 
-function DataTable<T extends { id: number, [key: string]: any }> ({ 
+export default function DataTable<T extends { id: number, [key: string]: any }> ({ 
   data,
   patchEntity,
   deleteEntity,
@@ -79,11 +77,10 @@ function DataTable<T extends { id: number, [key: string]: any }> ({
         return <TableHeading key={i}>
           {DataHeadingsTranslations[entry[0] as keyof typeof DataHeadingsTranslations]}
         </TableHeading>
-      })
+      });
   }, [data]);
 
   const filterData = useCallback(() => {
-
       setFilteredData(data.filter((entity) => {
         if (searchState) {
           const results = [];
@@ -111,7 +108,7 @@ function DataTable<T extends { id: number, [key: string]: any }> ({
   const getPagesCount = useCallback(() => {
     if (filteredData) {
       setPagesCount(filteredData.length > itemsPerPage ? Math.ceil(filteredData.length / itemsPerPage): 0);
-    }
+    };
   }, [filteredData]);
 
   const renderData = useCallback(() => {
@@ -126,7 +123,7 @@ function DataTable<T extends { id: number, [key: string]: any }> ({
       } else {
         return null;
       };
-    })
+    });
   }, [currentPage, deleteEntity, filteredData, patchEntity])
 
   useEffect(() => {
@@ -150,7 +147,7 @@ function DataTable<T extends { id: number, [key: string]: any }> ({
   return (
     <>
       <TableContainer>
-        <Table cellSpacing="0" cellPadding="0">
+        <Table>
           <thead>
             <tr>
               {getTableHeadings()}
@@ -171,5 +168,3 @@ function DataTable<T extends { id: number, [key: string]: any }> ({
     </>
   );
 };
-
-export default DataTable;
