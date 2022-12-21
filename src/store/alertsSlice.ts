@@ -68,7 +68,7 @@ const alertSlice = createSlice({
         state.alerts.push({
           message: `При добавлении записи произошла ошибка: ${action.payload.error}`,
           type: 'error'
-        })
+        });
       })
       .addMatcher(isDeleteFulfilled, (state) => {
         state.alerts.push({

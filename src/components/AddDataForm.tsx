@@ -25,19 +25,25 @@ const FormContainer = styled.div<{ isOpened: boolean }>`
   };
 `;
 
-const StyledForm = styled(Form)`
+const InputsContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
+  gap: 15px;
+  
   margin-top: 20px;
+  margin-bottom: 20px;
 `
 
 const Label = styled.label`
   ${visuallyHidden}
 `;
 
+const StyledInput = styled(Input)`
+  width: 200px;
+`
+
 const ToggleButton = styled(Button)`
   width: 150px;
-  align-self: flex-end;
 
   svg {
     margin-bottom: -3px;
@@ -47,7 +53,6 @@ const ToggleButton = styled(Button)`
 
 const SubmitButton = styled(Button)`
   width: 150px;
-  margin-left: auto;
   background-color: #29a829;
 
   &:hover {
@@ -111,25 +116,28 @@ export default function AddDataForm<T> ({ fields, addEntity }: addDataFormProps<
             dirty,
             isValid,
             handleChange,
-          }) => <StyledForm>
-            {Object.entries(values).map((formField, i) => {
-              return <React.Fragment key={i}>
-                {
-                  touched[formField[0]]
-                  && errors[formField[0]]
-                  && <p>{errors[formField[0]]}</p>
-                }
-                <Label htmlFor={`${formField[0]}-field`}>{formField[0]}</Label>
-                <Input
-                  type="text"
-                  name={formField[0]}
-                  id={`${formField[0]}-field`}
-                  value={values[formField[1]]}
-                  onChange={handleChange}
-                  placeholder={DataHeadingsTranslations[formField[0] as keyof typeof DataHeadingsTranslations]}
-                />
-              </React.Fragment>
-            })}
+          }) => <Form>
+            <InputsContainer>
+              {Object.entries(values).map((formField, i) => {
+                return <React.Fragment key={i}>
+                  {
+                    touched[formField[0]]
+                    && errors[formField[0]]
+                    && <p>{errors[formField[0]]}</p>
+                  }
+                  <Label htmlFor={`${formField[0]}-field`}>{formField[0]}</Label>
+                  <StyledInput
+                    type="text"
+                    name={formField[0]}
+                    id={`${formField[0]}-field`}
+                    value={values[formField[1]]}
+                    onChange={handleChange}
+                    placeholder={DataHeadingsTranslations[formField[0] as keyof typeof DataHeadingsTranslations]}
+                  />
+                </React.Fragment>
+              })}
+
+            </InputsContainer>
 
             <SubmitButton
               type='submit'
@@ -137,7 +145,7 @@ export default function AddDataForm<T> ({ fields, addEntity }: addDataFormProps<
             >
               Отправить
             </SubmitButton>
-          </StyledForm>}
+          </Form>}
         </Formik>
       }
     </FormContainer>
