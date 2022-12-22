@@ -1,5 +1,7 @@
 import { AsyncThunk, EntitySelectors } from '@reduxjs/toolkit';
 import { useEffect } from 'react';
+import { ObjectSchema } from 'yup';
+import { AnyObject } from 'yup/lib/types';
 import { useAppDispatch, useAppSelector } from '../hooks';
 import { RootState } from '../store/store';
 import AddDataForm from './AddDataForm';
@@ -15,6 +17,7 @@ interface DataTableProps<T> {
   deleteAction: AsyncThunk<number, number, object>,
   selectors: EntitySelectors<T, RootState>,
   slice: "gateways" | "models" | "regions" | "hosts",
+  validationSchema: ObjectSchema<AnyObject>
 };
 
 export default function DataTablePage<T extends {
@@ -26,7 +29,8 @@ export default function DataTablePage<T extends {
   patchAction,
   deleteAction,
   selectors,
-  slice
+  slice,
+  validationSchema
 }: DataTableProps<T>) {
   const dispatch = useAppDispatch();
   const entities = useAppSelector(selectors.selectAll);
@@ -52,6 +56,7 @@ export default function DataTablePage<T extends {
               entities.length > 0 && <AddDataForm<T>
                 fields={getEntityKeys() as Array<keyof Omit<T, 'id'>>}
                 addEntity={addAction}
+                validationSchema={validationSchema}
               />
             }
             {

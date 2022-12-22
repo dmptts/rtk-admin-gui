@@ -48,15 +48,12 @@ const configsSlice = createSlice({
             super_password: action.payload.super_password,
           }
         });
-        state.loading = false;
       })
       .addCase(deleteModelConfig.fulfilled, (state, action) => {
         modelConfigsAdapter.removeOne(state, action.payload);
-        state.loading = false;
       })
       .addCase(addModelConfig.fulfilled, (state, action) => {
         modelConfigsAdapter.addOne(state, action.payload);
-        state.loading = false;
       })
       .addMatcher(isError, (state, action: PayloadAction<string>) => {
         state.loading = false;

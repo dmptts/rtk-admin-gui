@@ -1,15 +1,15 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { AsyncThunk } from '@reduxjs/toolkit';
 import { useAppDispatch } from '../hooks';
 import styled from 'styled-components';
 import { Form, Formik } from 'formik';
-import { validationSchema } from '../utils';
-import { visuallyHidden } from '../global-styles';
 import Button from './Button';
 import Input from './Input';
-import { DataHeadingsTranslations } from '../const';
+import { DataHeadingsTranslations, InputPlaceholders } from '../const';
 import SVG from 'react-inlinesvg';
 import PlusIcon from '../img/icon-plus.svg';
+import { AnyObject } from 'yup/lib/types';
+import { ObjectSchema } from 'yup';
 
 const FormContainer = styled.div<{ isOpened: boolean }>`
   display: flex;
@@ -30,16 +30,32 @@ const InputsContainer = styled.div`
   flex-wrap: wrap;
   gap: 15px;
   
-  margin-top: 20px;
-  margin-bottom: 20px;
-`
+  margin-top: 25px;
+  margin-bottom: 25px;
+`;
+
+const InputWrapper = styled.div`
+  position: relative;
+  display: flex;
+  flex-direction: column;
+`;
+
+const InputErrorMsg = styled.span`
+  position: absolute;
+  bottom: 0;
+  left: 0;
+
+  font-size: 12px;
+  color: #ff6347;
+`;
 
 const Label = styled.label`
-  ${visuallyHidden}
+  margin-bottom: 5px;
 `;
 
 const StyledInput = styled(Input)`
-  width: 200px;
+  width: 240px;
+  margin-bottom: 20px;
 `
 
 const ToggleButton = styled(Button)`
@@ -69,9 +85,10 @@ const SubmitButton = styled(Button)`
 interface addDataFormProps<T> {
   fields: Array<keyof T>,
   addEntity: AsyncThunk<any, Omit<T, 'id'>, object>,
+  validationSchema: ObjectSchema<AnyObject>
 };
 
-export default function AddDataForm<T> ({ fields, addEntity }: addDataFormProps<T>) {
+export default function AddDataForm<T> ({ fields, addEntity, validationSchema }: addDataFormProps<T>) {
   const dispatch = useAppDispatch();
   const [isOpened, setIsOpened] = useState<boolean>(false);
 
@@ -82,9 +99,10 @@ export default function AddDataForm<T> ({ fields, addEntity }: addDataFormProps<
     }, {} as {[key: string]: string})
   };
 
-  const formSubmitHandler = (values: {[key: string]: string} ) => {
+  const formSubmitHandler = (values: { [key: string]: string } ) => {
     if (values) {
       dispatch(addEntity(values as T));
+      setIsOpened(false);
     };
   };
   
@@ -116,27 +134,31 @@ export default function AddDataForm<T> ({ fields, addEntity }: addDataFormProps<
             dirty,
             isValid,
             handleChange,
+            handleBlur,
           }) => <Form>
             <InputsContainer>
               {Object.entries(values).map((formField, i) => {
-                return <React.Fragment key={i}>
-                  {
-                    touched[formField[0]]
-                    && errors[formField[0]]
-                    && <p>{errors[formField[0]]}</p>
-                  }
-                  <Label htmlFor={`${formField[0]}-field`}>{formField[0]}</Label>
+                return <InputWrapper key={i}>
+                  
+                  <Label htmlFor={`${formField[0]}-field`}>
+                    {`${DataHeadingsTranslations[formField[0] as keyof typeof DataHeadingsTranslations]}:`}
+                  </Label>
                   <StyledInput
                     type="text"
                     name={formField[0]}
                     id={`${formField[0]}-field`}
                     value={values[formField[1]]}
                     onChange={handleChange}
-                    placeholder={DataHeadingsTranslations[formField[0] as keyof typeof DataHeadingsTranslations]}
+                    onBlur={handleBlur}
+                    placeholder={InputPlaceholders[formField[0] as keyof typeof InputPlaceholders]}
                   />
-                </React.Fragment>
+                  {
+                    touched[formField[0]]
+                    && errors[formField[0]]
+                    && <InputErrorMsg>{errors[formField[0]]}</InputErrorMsg>
+                  }
+                </InputWrapper>
               })}
-
             </InputsContainer>
 
             <SubmitButton

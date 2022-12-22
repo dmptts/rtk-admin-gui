@@ -45,15 +45,12 @@ const regionsSlice = createSlice({
             gateway_id: action.payload.gateway_id,
           }
         });
-        state.loading = false;
       })
       .addCase(deleteRegion.fulfilled, (state, action) => {
         regionsAdapter.removeOne(state, action.payload);
-        state.loading = false;
       })
       .addCase(addRegion.fulfilled, (state, action) => {
         regionsAdapter.addOne(state, action.payload);
-        state.loading = false;
       })
       .addMatcher(isError, (state, action: PayloadAction<string>) => {
         state.loading = false;

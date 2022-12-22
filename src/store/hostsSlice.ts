@@ -54,15 +54,12 @@ const hostsSlice = createSlice({
             status: action.payload.status,
           }
         });
-        state.loading = false;
       })
       .addCase(deleteHost.fulfilled, (state, action) => {
         hostsAdapter.removeOne(state, action.payload);
-        state.loading = false;
       })
       .addCase(addHost.fulfilled, (state, action) => {
         hostsAdapter.addOne(state, action.payload);
-        state.loading = false;
       })
       .addMatcher(isError, (state, action: PayloadAction<string>) => {
         state.loading = false;

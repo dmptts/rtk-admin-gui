@@ -11,6 +11,7 @@ import { addHost, deleteHost, fetchHosts, patchHost } from './api/hosts';
 import { selectors as hostSelectors } from './store/hostsSlice';
 import { addRegion, deleteRegion, fetchRegions, patchRegion } from './api/regions';
 import { selectors as regionSelectors } from './store/regionsSlice';
+import { gatewayValidationSchema, hostValidationSchema, modelConfigValidationSchema, regionValidationSchema } from './utils';
 
 const router = createBrowserRouter([
   {
@@ -28,6 +29,7 @@ const router = createBrowserRouter([
       deleteAction={deleteModelConfig}
       selectors={modelConfigSelectors}
       slice='models'
+      validationSchema={modelConfigValidationSchema}
     />,
   },
   {
@@ -40,6 +42,7 @@ const router = createBrowserRouter([
       deleteAction={deleteGateway}
       selectors={gatewaySelectors}
       slice='gateways'
+      validationSchema={gatewayValidationSchema}
     />,
   },
   {
@@ -52,6 +55,7 @@ const router = createBrowserRouter([
       deleteAction={deleteHost}
       selectors={hostSelectors}
       slice='hosts'
+      validationSchema={hostValidationSchema}
     />,
   },
   {
@@ -64,6 +68,7 @@ const router = createBrowserRouter([
       deleteAction={deleteRegion}
       selectors={regionSelectors}
       slice='regions'
+      validationSchema={regionValidationSchema}
     />,
   }
 ]);

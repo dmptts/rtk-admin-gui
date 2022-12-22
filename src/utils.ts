@@ -7,11 +7,115 @@ export const sortPropertiesByTemplate = (a: string, b: string) => {
   return aIndex - bIndex;
 };
 
-export const validationSchema = yup.object().shape({
-  model: yup.string().required(),
-  region: yup.string().required(),
-  configuration: yup.string().required(),
-  login: yup.string().required(),
-  password: yup.string().required(),
-  super_password: yup.string().required(),
+export const modelConfigValidationSchema = yup.object().shape({
+  model: yup
+    .string()
+    .required('Обязательно для заполнения'),
+  region: yup
+    .string()
+    .min(3, 'Минимальное кол-во символов: 3')
+    .max(4, 'Максимальное кол-во символов: 4')
+    .matches(/^[A-Z]{3,4}$/, 'Только заглавные латинские символы')
+    .required('Обязательно для заполнения'),
+  configuration: yup
+    .string()
+    .required('Обязательно для заполнения'),
+  login: yup
+    .string()
+    .min(4, 'Минимум 4 символа')
+    .matches(/^[A-Za-z0-9#^*&%!@_-]{4,}$/, 'Только латинница и спец. символы')
+    .required('Обязательно для заполнения'),
+  password: yup
+    .string()
+    .min(4, 'Минимум 4 символа')
+    .matches(/^[A-Za-z0-9#^*&%!@_-]{4,}$/, 'Только латинница и спец. символы')
+    .required('Обязательно для заполнения'),
+  super_password: yup
+    .string()
+    .min(4, 'Минимум 4 символа')
+    .matches(/^[A-Za-z0-9#^*&%!@_-]{4,}$/, 'Только латинница и спец. символы')
+    .required('Обязательно для заполнения'),
 });
+
+export const gatewayValidationSchema = yup.object().shape({
+  ip: yup
+    .string()
+    .matches(/^(?:[0-9]{1,3}\.){3}[0-9]{1,3}$/, 'Только в формате \'1.1.1.1\'')
+    .required('Обязательно для заполнения'),
+  type: yup
+    .string()
+    .required('Обязательно для заполнения'),
+  login: yup
+    .string()
+    .min(4, 'Минимум 4 символа')
+    .matches(/^[A-Za-z0-9#^*&%!@_-]{4,}$/, 'Только латинница и спец. символы')
+    .required('Обязательно для заполнения'),
+  password: yup
+    .string()
+    .min(4, 'Минимум 4 символа')
+    .matches(/^[A-Za-z0-9#^*&%!@_-]{4,}$/, 'Только латинница и спец. символы')
+    .required('Обязательно для заполнения'),
+});
+
+export const regionValidationSchema = yup.object().shape({
+  name: yup
+    .string()
+    .min(3, 'Минимальное кол-во символов: 3')
+    .max(4, 'Максимальное кол-во символов: 4')
+    .matches(/^[A-Z]{3,4}$/, 'Только заглавные латинские символы')
+    .required('Обязательно для заполнения'),
+  description: yup
+    .string()
+    .required('Обязательно для заполнения'),
+  gateway_id: yup
+    .string()
+    .matches(/^\d+$/, 'Только числа')
+    .required('Обязательно для заполнения'),
+});
+
+export const hostValidationSchema = yup.object().shape({
+  ip: yup
+    .string()
+    .matches(/^(?:[0-9]{1,3}\.){3}[0-9]{1,3}$/, 'Только в формате \'1.1.1.1\'')
+    .required('Обязательно для заполнения'),
+  name: yup
+    .string()
+    .required('Обязательно для заполнения'),
+  host: yup
+    .string()
+    .required('Обязательно для заполнения'),
+  region: yup
+    .string()
+    .min(3, 'Минимальное кол-во символов: 3')
+    .max(4, 'Максимальное кол-во символов: 4')
+    .matches(/^[A-Z]{3,4}$/, 'Только заглавные латинские символы')
+    .required('Обязательно для заполнения'),
+  model: yup
+    .string()
+    .required('Обязательно для заполнения'),
+  type: yup
+    .string()
+    .required('Обязательно для заполнения'),
+  configuration: yup
+    .string()
+    .required('Обязательно для заполнения'),
+  login: yup
+    .string()
+    .min(4, 'Минимум 4 символа')
+    .matches(/^[A-Za-z0-9#^*&%!@_-]{4,}/, 'Только латинница и спец. символы')
+    .required('Обязательно для заполнения'),
+  password: yup
+    .string()
+    .min(4, 'Минимум 4 символа')
+    .matches(/^[A-Za-z0-9#^*&%!@_-]{4,}/, 'Только латинница и спец. символы')
+    .required('Обязательно для заполнения'),
+  super_password: yup
+    .string()
+    .min(4, 'Минимум 4 символа')
+    .matches(/^[[A-Za-z0-9#^*&%!@_-]{4,}/, 'Только латинница и спец. символы')
+    .required('Обязательно для заполнения'),
+  status: yup
+    .string()
+    .matches(/^\d+$/, 'Только цифры')
+    .required('Обязательно для заполнения'),
+})

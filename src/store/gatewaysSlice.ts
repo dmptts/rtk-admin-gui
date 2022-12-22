@@ -1,5 +1,5 @@
 import { AnyAction, createEntityAdapter, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { deleteGateway, fetchGateways, patchGateway } from '../api/gateways';
+import { addGateway, deleteGateway, fetchGateways, patchGateway } from '../api/gateways';
 import { Gateway as GatewayInterface } from '../const';
 import { RootState } from './store';
 
@@ -45,11 +45,12 @@ const gatewaysSlice = createSlice({
             password: action.payload.password,
           }
         });
-        state.loading = false;
       })
       .addCase(deleteGateway.fulfilled, (state, action) => {
         gatewaysAdapter.removeOne(state, action.payload);
-        state.loading = false;
+      })
+      .addCase(addGateway.fulfilled, (state, action) => {
+        gatewaysAdapter.addOne(state, action.payload);
       })
       .addMatcher(isError, (state, action: PayloadAction<string>) => {
         state.loading = false;

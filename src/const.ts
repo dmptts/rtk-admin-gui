@@ -100,3 +100,21 @@ export interface IAlert {
   message: string,
   type: 'success' | 'error' | '',
 };
+
+export enum InputPlaceholders {
+  id = '7',
+  name = 'MSK',
+  region = 'MSK',
+  gateway_id = '142',
+  ip = '1.1.1.1',
+  login = 'rst-user',
+  password = 'pass-example',
+  type = 'type',
+  title = 'ADd2',
+  host = 'someHost',
+  model = 'Mds23-4',
+  description = 'some description',
+  configuration = 'someConfig',
+  super_password = 'super-pass',
+  status = '0'
+}
