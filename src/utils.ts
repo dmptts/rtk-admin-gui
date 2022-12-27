@@ -118,4 +118,11 @@ export const hostValidationSchema = yup.object().shape({
     .string()
     .matches(/^\d+$/, 'Только цифры')
     .required('Обязательно для заполнения'),
-})
+});
+
+export type AtLeastOne<T, U = {[K in keyof T]: Pick<T, K> }> = Partial<T> & U[keyof U];
+
+export interface IPatchData<T extends { id: number, [key: string]: any }> {
+  id: number,
+  payload: AtLeastOne<Omit<T, 'id'>>
+}

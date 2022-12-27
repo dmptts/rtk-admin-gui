@@ -117,4 +117,4 @@ export enum InputPlaceholders {
   configuration = 'someConfig',
   super_password = 'super-pass',
   status = '0'
-}
+};

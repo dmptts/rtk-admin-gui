@@ -1,6 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { ApiUrls, GatewayPostData } from '../const';
+import { ApiUrls, Gateway, GatewayPostData } from '../const';
 import { Gateway as GatewayInterface } from '../const';
+import { IPatchData } from '../utils';
 
 export const fetchGateways = createAsyncThunk<GatewayInterface[]>(
   'gateways/fetchGateways',
@@ -17,17 +18,16 @@ export const fetchGateways = createAsyncThunk<GatewayInterface[]>(
 
 export const patchGateway = createAsyncThunk(
   'gateways/patchGateway',
-  async (gateway: GatewayInterface, { rejectWithValue }) => {
-    const response = await fetch(`${ApiUrls.gateway(gateway.id)}`, {
+  async (
+    data: IPatchData<Gateway>,
+    { rejectWithValue }
+  ) => {
+    const response = await fetch(`${ApiUrls.gateway(data.id)}`, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json;charset=utf-8'
       },
-      body: JSON.stringify({
-        ip: gateway.ip,
-        login: gateway.login,
-        password: gateway.password,
-      }),
+      body: JSON.stringify(data.payload),
     });
 
     if (!response.ok) {

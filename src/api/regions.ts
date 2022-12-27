@@ -1,5 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { ApiUrls, Region, RegionPostData } from '../const';
+import { IPatchData } from '../utils';
 
 export const fetchRegions = createAsyncThunk<Region[]>(
   'regions/fetchRegions',
@@ -16,17 +17,16 @@ export const fetchRegions = createAsyncThunk<Region[]>(
 
 export const patchRegion = createAsyncThunk(
   'regions/patchRegion',
-  async (region: Region, { rejectWithValue }) => {
-    const response = await fetch(`${ApiUrls.region(region.id)}`, {
+  async (
+    data: IPatchData<Region>,
+    { rejectWithValue }
+  ) => {
+    const response = await fetch(`${ApiUrls.region(data.id)}`, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json;charset=utf-8',
       },
-      body: JSON.stringify({
-        name: region.name,
-        description: region.description,
-        gateway_id: region.gateway_id
-      }),
+      body: JSON.stringify(data.payload),
     });
 
     if (!response.ok) {

@@ -1,5 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { ApiUrls, Host, HostPostData,  } from '../const';
+import { IPatchData } from '../utils';
 
 export const fetchHosts = createAsyncThunk<Host[]>(
   'hosts/fetchHosts',
@@ -16,26 +17,16 @@ export const fetchHosts = createAsyncThunk<Host[]>(
 
 export const patchHost = createAsyncThunk(
   'hosts/patchHost',
-  async (host: Host, { rejectWithValue }) => {
-    const response = await fetch(`${ApiUrls.host(host.id)}`, {
+  async (
+    data: IPatchData<Host>,
+    { rejectWithValue }
+  ) => {
+    const response = await fetch(`${ApiUrls.host(data.id)}`, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json;charset=utf-8',
       },
-      body: JSON.stringify({
-        ip: host.ip,
-        title: host.title,
-        host: host.host,
-        region: host.region,
-        model: host.model,
-        type: host.type,
-        name: host.name,
-        configuration: host.configuration,
-        login: host.login,
-        password: host.password,
-        super_password: host.super_password,
-        status: host.status,
-      }),
+      body: JSON.stringify(data.payload),
     });
 
     if (!response.ok) {

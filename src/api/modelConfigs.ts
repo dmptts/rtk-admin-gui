@@ -1,5 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { ApiUrls, ModelConfig, ModelConfigPostData } from '../const';
+import { IPatchData } from '../utils';
 
 export const fetchModelConfigs = createAsyncThunk<ModelConfig[]>(
   'models/fetchModelConfigs',
@@ -16,20 +17,16 @@ export const fetchModelConfigs = createAsyncThunk<ModelConfig[]>(
 
 export const patchModelConfig = createAsyncThunk(
   'models/patchModelConfig',
-  async (model: ModelConfig, { rejectWithValue }) => {
-    const response = await fetch(`${ApiUrls.modelConfig(model.id)}`, {
+  async (
+    data: IPatchData<ModelConfig>,
+    { rejectWithValue }
+  ) => {
+    const response = await fetch(`${ApiUrls.modelConfig(data.id)}`, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json;charset=utf-8',
       },
-      body: JSON.stringify({
-        model: model.model,
-        region: model.region,
-        configuration: model.configuration,
-        login: model.login,
-        password: model.password,
-        super_password: model.super_password,
-      }),
+      body: JSON.stringify(data.payload),
     });
 
     if (!response.ok) {
