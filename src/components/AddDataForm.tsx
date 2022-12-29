@@ -139,7 +139,6 @@ export default function AddDataForm<T> ({ fields, addEntity, validationSchema }:
             <InputsContainer>
               {Object.entries(values).map((formField, i) => {
                 return <InputWrapper key={i}>
-                  
                   <Label htmlFor={`${formField[0]}-field`}>
                     {`${DataHeadingsTranslations[formField[0] as keyof typeof DataHeadingsTranslations]}:`}
                   </Label>
@@ -153,9 +152,9 @@ export default function AddDataForm<T> ({ fields, addEntity, validationSchema }:
                     placeholder={InputPlaceholders[formField[0] as keyof typeof InputPlaceholders]}
                   />
                   {
-                    touched[formField[0]]
-                    && errors[formField[0]]
-                    && <InputErrorMsg>{errors[formField[0]]}</InputErrorMsg>
+                    touched[formField[0]] &&
+                    errors[formField[0]] &&
+                    <InputErrorMsg>{errors[formField[0]]}</InputErrorMsg>
                   }
                 </InputWrapper>
               })}

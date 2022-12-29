@@ -100,8 +100,6 @@ const PaginationEllipsis = styled(PaginationItem)`
     padding-bottom: 7px;
     padding-left: 9px;
     padding-right: 9px;
-
-    /* color: var(--color-text-main); */
     
     background-color: transparent;
     border-width: 2px 0 2px 0;

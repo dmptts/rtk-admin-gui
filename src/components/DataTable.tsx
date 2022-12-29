@@ -20,13 +20,11 @@ const TableContainer = styled.div`
 
 const Table = styled.table`
   width: 100%;
-  margin-bottom: 25px;
 
-  border-spacing:10px;
+  border-spacing: 10px;
 `;
 
 const TableHeading = styled.th`
-  height: 60px;
   padding-right: 20px;
 
   font-size: 20px;

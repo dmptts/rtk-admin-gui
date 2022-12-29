@@ -21,8 +21,31 @@ const TableCell = styled.td`
   }
 `;
 
+const InputWrapper = styled.div`
+  position: relative;
+  display: flex;
+  flex-direction: column;
+`;
+
+const TextWrapper = styled.div`
+  margin-bottom: 20px;
+`;
+
 const Label = styled.label`
   ${visuallyHidden}
+`;
+
+const StyledInput = styled(Input)`
+  margin-bottom: 20px;
+`;
+
+const InputErrorMsg = styled.span`
+  position: absolute;
+  bottom: 0;
+  left: 0;
+
+  font-size: 12px;
+  color: #ff6347;
 `;
 
 const DeleteBtn = styled.button`
@@ -30,7 +53,7 @@ const DeleteBtn = styled.button`
   width: 16px;
   height: 16px;
   margin: 0;
-  margin-bottom: -14px;
+  margin-bottom: 4px;
   padding: 0;
 
   font-size: 0;
@@ -111,28 +134,33 @@ export default function DataRow
             handleChange,
           }) => 
             <>
-              {console.log(errors)}
-              
               {Object.entries(values)
                 .sort((a, b) => sortPropertiesByTemplate(a[0], b[0]))
-                .map((entry, i) => {
-                  if (entry[0] === 'id') {
-                    return <TableCell key={i}>{entry[1]}</TableCell>
-                  } else {
-                    
+                .map((formField, i) => {
+                  if (formField[0] === 'id') {
                     return <TableCell key={i}>
-                      <Label>{DataHeadingsTranslations[entry[0] as keyof typeof DataHeadingsTranslations]}</Label>
-                      <Input
-                        type="text"
-                        name={entry[0]}
-                        value={entry[1]}
-                        onChange={handleChange}
-                        onBlur={(e) => inputBlurHandler(e, errors[entry[0]] as FormikErrors<T>)}
-                      />
-                      {
-                        errors[entry[0]] &&
-                        <p>Ошибка!</p>
-                      }
+                      <TextWrapper>{formField[1]}</TextWrapper>
+                    </TableCell>
+                  } else {
+                    return <TableCell key={i}>
+                      <InputWrapper>
+                        <Label>
+                          {DataHeadingsTranslations[formField[0] as keyof typeof DataHeadingsTranslations]}
+                        </Label>
+                        <StyledInput
+                          type="text"
+                          name={formField[0]}
+                          value={formField[1]}
+                          onChange={handleChange}
+                          onBlur={(e) => inputBlurHandler(e, errors[formField[0]] as FormikErrors<T>)}
+                        />
+                        {
+                          errors[formField[0]] &&
+                          <InputErrorMsg>
+                            {errors[formField[0]] as string}
+                          </InputErrorMsg>
+                        }
+                      </InputWrapper>
                     </TableCell>
                   };
               })}

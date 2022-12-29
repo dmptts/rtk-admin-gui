@@ -33,7 +33,13 @@ export default function Search<T extends SearchStateI> ({state, stateSetter}: Se
         .sort(sortPropertiesByTemplate)
         .map((param, i) => {
           return <TableCell key={i}>
-            <Input type="text" name={param} value={state[param as keyof T]} onChange={changeHandler} placeholder={`Поиск по ${DataHeadingsTranslations[param as keyof typeof DataHeadingsTranslations]}`}/>
+            <Input
+              type="text"
+              name={param}
+              value={state[param as keyof T]}
+              onChange={changeHandler}
+              placeholder={`Поиск по ${DataHeadingsTranslations[param as keyof typeof DataHeadingsTranslations]}`}
+            />
           </TableCell>
         }
       )}
