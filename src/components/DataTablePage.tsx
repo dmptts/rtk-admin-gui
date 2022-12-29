@@ -4,16 +4,17 @@ import { ObjectSchema } from 'yup';
 import { AnyObject } from 'yup/lib/types';
 import { useAppDispatch, useAppSelector } from '../hooks';
 import { RootState } from '../store/store';
+import { IPatchData } from '../utils';
 import AddDataForm from './AddDataForm';
 import Container from './Container';
 import DataTable from './DataTable';
 import PageHeader from './PageHeader';
 import Spinner from './Spinner';
 
-interface DataTableProps<T> {
+interface DataTableProps<T extends { [key: string]: any; id: number; }> {
   fetchAction: AsyncThunk<T[], void, object>,
   addAction: AsyncThunk<any, Omit<T, 'id'>, object>,
-  patchAction: AsyncThunk<any, T, object>,
+  patchAction: AsyncThunk<any, IPatchData<T>, object>,
   deleteAction: AsyncThunk<number, number, object>,
   selectors: EntitySelectors<T, RootState>,
   slice: "gateways" | "models" | "regions" | "hosts",
@@ -65,6 +66,7 @@ export default function DataTablePage<T extends {
                 patchEntity={patchAction}
                 deleteEntity={deleteAction}
                 error={error}
+                validationSchema={validationSchema}
               />
             }
           </>

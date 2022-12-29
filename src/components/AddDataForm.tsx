@@ -85,7 +85,7 @@ const SubmitButton = styled(Button)`
 interface addDataFormProps<T> {
   fields: Array<keyof T>,
   addEntity: AsyncThunk<any, Omit<T, 'id'>, object>,
-  validationSchema: ObjectSchema<AnyObject>
+  validationSchema: ObjectSchema<AnyObject>,
 };
 
 export default function AddDataForm<T> ({ fields, addEntity, validationSchema }: addDataFormProps<T>) {

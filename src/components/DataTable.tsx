@@ -2,10 +2,12 @@ import { useCallback, useEffect, useState } from 'react';
 import Search from './Search';
 import TablePagination from './TablePagination';
 import DataRow from './DataRow';
-import { sortPropertiesByTemplate } from '../utils';
+import { IPatchData, sortPropertiesByTemplate } from '../utils';
 import { AsyncThunk } from '@reduxjs/toolkit';
 import { DataHeadingsTranslations } from '../const';
 import styled from 'styled-components';
+import { AnyObject } from 'yup/lib/types';
+import { ObjectSchema } from 'yup';
 
 const TableContainer = styled.div`
   padding-top: 20px;
@@ -42,18 +44,20 @@ const TableHeading = styled.th`
   }
 `;
 
-interface DataTableProps<T> {
+interface DataTableProps<T extends { [key: string]: any; id: number; }> {
   data: T[],
-  patchEntity: AsyncThunk<any, T, object>,
+  patchEntity: AsyncThunk<any, IPatchData<T>, object>,
   deleteEntity: AsyncThunk<number, number, object>,
   error: null | string,
+  validationSchema: ObjectSchema<AnyObject>,
 };
 
 export default function DataTable<T extends { id: number, [key: string]: any }> ({ 
   data,
   patchEntity,
   deleteEntity,
-  error
+  error,
+  validationSchema,
 }: DataTableProps<T>) {
   const itemsPerPage = 10;
   const [searchState, setSearchState] = useState<{[key in keyof T]: string} | null>(null);
@@ -119,12 +123,13 @@ export default function DataTable<T extends { id: number, [key: string]: any }> 
           entity={entity}
           patchEntity={patchEntity}
           deleteEntity={deleteEntity}
+          validationSchema={validationSchema}
         />
       } else {
         return null;
       };
     });
-  }, [currentPage, deleteEntity, filteredData, patchEntity])
+  }, [currentPage, deleteEntity, filteredData, patchEntity, validationSchema])
 
   useEffect(() => {
     if (data.length > 0 && !searchState) {

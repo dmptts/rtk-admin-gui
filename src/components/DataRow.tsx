@@ -1,11 +1,15 @@
 import styled from 'styled-components';
 import { AsyncThunk } from '@reduxjs/toolkit';
-import { useState } from 'react';
 import { useAppDispatch } from '../hooks';
-import { sortPropertiesByTemplate } from '../utils';
+import { IPatchData, sortPropertiesByTemplate } from '../utils';
 import CloseIcon from '../img/icon-close.svg';
 import SVG from 'react-inlinesvg';
 import Input from './Input';
+import { Formik, FormikErrors } from 'formik';
+import { DataHeadingsTranslations } from '../const';
+import { visuallyHidden } from '../global-styles';
+import { ObjectSchema } from 'yup';
+import { AnyObject } from 'yup/lib/types';
 
 const TableCell = styled.td`
   &:first-child {
@@ -15,6 +19,10 @@ const TableCell = styled.td`
   &:last-child {
     padding-right: 20px;
   }
+`;
+
+const Label = styled.label`
+  ${visuallyHidden}
 `;
 
 const DeleteBtn = styled.button`
@@ -49,64 +57,97 @@ const DeleteBtn = styled.button`
   }
 `;
 
-interface DataRowProps<T> {
+interface DataRowProps<T extends { [key: string]: any; id: number; }> {
   entity: T,
-  patchEntity: AsyncThunk<any, T, object>,
+  patchEntity: AsyncThunk<any, IPatchData<T>, object>,
   deleteEntity: AsyncThunk<number, number, object>,
+  validationSchema: ObjectSchema<AnyObject>,
 };
 
-export default function DataRow<T extends { id: number, [key: string]: any }> ({ entity, patchEntity, deleteEntity }: DataRowProps<T>) {
+export default function DataRow
+  <T extends { id: number, [key: string]: any }> ({
+    entity,
+    patchEntity,
+    deleteEntity,
+    validationSchema
+  }: DataRowProps<T>) {
   const dispatch = useAppDispatch();
-  const [data, setData] = useState<T>(entity);
-
-  const inputChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+  
+  const deleteBtnClickHandler = (
+    e: React.MouseEvent<HTMLButtonElement>,
+    id: number
+  ) => {
     e.preventDefault();
-    setData({
-      ...data,
-      [e.target.name]: e.target.value,
-    });
+    dispatch(deleteEntity(id));
   };
 
-  const deleteBtnClickHandler = () => {
-    dispatch(deleteEntity(data.id))
-  };
-
-  const inputBlurHandler = () => {
-    dispatch(patchEntity(data));
-  };
-
-  const renderData = () => {
-    return Object.entries(data)
-      .sort((a, b) => sortPropertiesByTemplate(a[0], b[0]))
-      .map((entry, i) => {
-        if (entry[0] === 'id') {
-          return <TableCell key={i}>{entry[1]}</TableCell>
-        } else {
-          return <TableCell key={i}>
-            <Input
-              type="text"
-              name={entry[0]}
-              value={entry[1]}
-              onChange={inputChangeHandler}
-              onBlur={inputBlurHandler}
-            />
-          </TableCell>
-        };
-      });
+  const inputBlurHandler = (
+    e: React.FocusEvent<HTMLInputElement>,
+    err: FormikErrors<T>
+  ) => {
+    if (!err) {
+      dispatch(patchEntity({
+        id: entity.id,
+        payload: {
+          [e.target.name]: e.target.value
+        }
+      } as unknown as IPatchData<T>));
+    }
   };
 
   return (
     <tr>
-      {renderData()}
-      <TableCell>
-        <DeleteBtn
-          type='button'
-          onClick={deleteBtnClickHandler}
-        >
-          <SVG src={CloseIcon} width={20} height={20} />
-          Удалить
-        </DeleteBtn>
-      </TableCell>
+      <Formik
+        initialValues={entity}
+        validateOnChange={true}
+        validationSchema={validationSchema}
+        // TODO: Найти способ избавиться от onSubmit. Formik считает это обязательным пропом.
+        onSubmit={() => {}}
+
+      >
+        {({
+            values,
+            errors,
+            handleChange,
+          }) => 
+            <>
+              {console.log(errors)}
+              
+              {Object.entries(values)
+                .sort((a, b) => sortPropertiesByTemplate(a[0], b[0]))
+                .map((entry, i) => {
+                  if (entry[0] === 'id') {
+                    return <TableCell key={i}>{entry[1]}</TableCell>
+                  } else {
+                    
+                    return <TableCell key={i}>
+                      <Label>{DataHeadingsTranslations[entry[0] as keyof typeof DataHeadingsTranslations]}</Label>
+                      <Input
+                        type="text"
+                        name={entry[0]}
+                        value={entry[1]}
+                        onChange={handleChange}
+                        onBlur={(e) => inputBlurHandler(e, errors[entry[0]] as FormikErrors<T>)}
+                      />
+                      {
+                        errors[entry[0]] &&
+                        <p>Ошибка!</p>
+                      }
+                    </TableCell>
+                  };
+              })}
+              <TableCell>
+                <DeleteBtn
+                  type='button'
+                  onClick={(e) => deleteBtnClickHandler(e, values.id)}
+                >
+                  <SVG src={CloseIcon} width={20} height={20} />
+                  Удалить
+                </DeleteBtn>
+              </TableCell>
+            </>
+          }
+      </Formik>
     </tr>
   );
 };

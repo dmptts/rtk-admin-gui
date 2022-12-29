@@ -69,10 +69,7 @@ export const addRegion = createAsyncThunk(
     if (!response.ok) {
       return rejectWithValue('Can\'t add region!');
     };
-    
-    const parsed = await response.json();
-    // return (await response.json());
-    console.log(parsed);
-    return parsed;
+
+    return (await response.json());
   }
 );

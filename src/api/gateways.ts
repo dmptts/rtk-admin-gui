@@ -71,9 +71,6 @@ export const addGateway = createAsyncThunk(
       return rejectWithValue('Can\'t add gateway!');
     };
     
-    const parsed = await response.json();
-    // return (await response.json());
-    console.log(parsed);
-    return parsed;
+    return (await response.json());
   }
 );
