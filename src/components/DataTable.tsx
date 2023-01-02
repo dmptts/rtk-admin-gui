@@ -42,6 +42,17 @@ const TableHeading = styled.th`
   }
 `;
 
+const LoadErrorMsg = styled.div`
+  padding-top: 30px;
+  padding-bottom: 30px;
+  padding-left: 15px;
+  padding-right: 15px;
+  
+  font-size: 24px;
+  color: var(--color-brand-orange);
+  text-align: center;
+`;
+
 interface DataTableProps<T extends { [key: string]: any; id: number; }> {
   data: T[],
   patchEntity: AsyncThunk<any, IPatchData<T>, object>,
@@ -150,23 +161,29 @@ export default function DataTable<T extends { id: number, [key: string]: any }> 
   return (
     <>
       <TableContainer>
-        <Table>
-          <thead>
-            <tr>
-              {getTableHeadings()}
-            </tr>
-          </thead>
-          <tbody>
-            {searchState && data.length > 0 && <Search state={searchState} stateSetter={setSearchState} />}
-            {error && <p>{error}</p>}
-            {renderData()}
-          </tbody>
-        </Table>
-        <TablePagination
-          pagesCount={pagesCount}
-          currentPage={currentPage}
-          setCurrentPage={setCurrentPage}
-        />
+        {
+        error ?
+        <LoadErrorMsg>{error}</LoadErrorMsg> :
+        <>
+          <Table>
+            <thead>
+              <tr>
+                {getTableHeadings()}
+              </tr>
+            </thead>
+            <tbody>
+              {searchState && data.length > 0 && <Search state={searchState} stateSetter={setSearchState} />}
+              
+              {renderData()}
+            </tbody>
+          </Table>
+          <TablePagination
+            pagesCount={pagesCount}
+            currentPage={currentPage}
+            setCurrentPage={setCurrentPage}
+          />
+        </>
+        }
       </TableContainer>
     </>
   );
