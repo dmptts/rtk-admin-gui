@@ -20,7 +20,7 @@ const FormContainer = styled.div<{ isOpened: boolean }>`
 
   border-radius: 20px;
   background-color: ${({ isOpened }) => isOpened
-    ? 'var(--color-table-bg)'
+    ? '#f8f8f8'
     : 'transparent'
   };
 `;

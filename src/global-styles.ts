@@ -32,8 +32,6 @@ export default createGlobalStyle`
     --color-text-main: #343b48;
     --color-brand-violet: #6d13f5;
     --color-brand-orange: #ec5d2f;
-    --color-table-bg: #f8f8f8;
-    --color-grey: #e3e8ec;
   }
 
   *,

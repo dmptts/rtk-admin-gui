@@ -38,7 +38,7 @@ const PaginationItem = styled.li<{ isActive?: boolean }>`
     : '2px 0 2px 0'
   };
   border-style: solid;
-  border-color: var(--color-grey);
+  border-color: #e3e8ec;
 
   cursor: pointer;
 

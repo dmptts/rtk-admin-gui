@@ -14,7 +14,7 @@ const TableContainer = styled.div`
   padding-bottom: 20px;
 
   border-radius: 20px;
-  background-color: var(--color-table-bg);
+  background-color: #f8f8f8;
 `;
 
 const TableWrapper = styled.div`
