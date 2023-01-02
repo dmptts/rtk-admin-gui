@@ -5,7 +5,10 @@ import { IAlert } from '../const';
 import SVG from 'react-inlinesvg';
 import CloseIcon from '../img/icon-close.svg';
 
-const StyledAlert = styled.div<{ type: 'success' | 'error' | '' }>`
+const StyledAlert = styled.div<{
+  show: boolean,
+  type: 'success' | 'error' | ''
+}>`
   position: fixed;
   top: 10px;
   right: 10px;
@@ -28,6 +31,10 @@ const StyledAlert = styled.div<{ type: 'success' | 'error' | '' }>`
     }
   }};
   border-radius: 5px;
+
+  opacity: ${({ show }) => show ? 1 : 0};
+  visibility: ${({ show }) => show ? 'visible' : 'hidden'};
+  transition: visibility 0.3s linear, opacity 0.3s linear;
 
   svg {
     stroke: #ffffff;
@@ -77,8 +84,8 @@ export default function Alert () {
     }
   }, [alerts]);
 
-  return show ? (
-    <StyledAlert type={alert.type}>
+  return (
+    <StyledAlert show={show} type={alert.type}>
       <Text>{alert.message}</Text>
       
       <CloseBtn type='button' onClick={CloseBtnClickHandler}>
@@ -86,5 +93,5 @@ export default function Alert () {
         <SVG src={CloseIcon} width={20} height={20} />
       </CloseBtn>
     </StyledAlert>
-  ): null;
+  );
 };
