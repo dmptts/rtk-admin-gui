@@ -1,4 +1,4 @@
-const BASE_URL = 'https://my-json-server.typicode.com/dmptts/admin-db'
+const BASE_URL = 'https://my-json-server.typicode.com/dmptts/admin-dsb'
 
 export const ApiUrls = {
   gateways: () => `${BASE_URL}/gateways`,

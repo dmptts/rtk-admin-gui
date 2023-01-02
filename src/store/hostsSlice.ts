@@ -16,7 +16,7 @@ const initialState: ExtendedEntityAdapterState = {
 };
 
 const isError = (action: AnyAction) => {
-  return action.type.endsWith('rejected');
+  return action.type.includes('hosts') && action.type.endsWith('rejected');
 };
 
 const isPending = (action: AnyAction) => {

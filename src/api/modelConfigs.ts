@@ -3,7 +3,7 @@ import { ApiUrls, ModelConfig, ModelConfigPostData } from '../const';
 import { IPatchData } from '../utils';
 
 export const fetchModelConfigs = createAsyncThunk(
-  'models/fetchModelConfigs',
+  'modelConfigs/fetchModelConfigs',
   async (_, { rejectWithValue }) => {
     const response = await fetch(`${ApiUrls.modelConfigs()}`);
     
@@ -16,7 +16,7 @@ export const fetchModelConfigs = createAsyncThunk(
 );
 
 export const patchModelConfig = createAsyncThunk(
-  'models/patchModelConfig',
+  'modelConfigs/patchModelConfig',
   async (
     data: IPatchData<ModelConfig>,
     { rejectWithValue }
@@ -38,7 +38,7 @@ export const patchModelConfig = createAsyncThunk(
 );
 
 export const deleteModelConfig = createAsyncThunk(
-  'models/deleteModelConfig',
+  'modelConfigs/deleteModelConfig',
   async (id: number, { rejectWithValue }) => {
     const response = await fetch(`${ApiUrls.modelConfig(id)}`, {
       method: 'DELETE',
@@ -56,7 +56,7 @@ export const deleteModelConfig = createAsyncThunk(
 );
 
 export const addModelConfig = createAsyncThunk(
-  'models/addModelConfig',
+  'modelConfigs/addModelConfig',
   async (data: ModelConfigPostData, { rejectWithValue }) => {
     const response = await fetch(`${ApiUrls.modelConfigs()}`, {
       method: 'POST',
