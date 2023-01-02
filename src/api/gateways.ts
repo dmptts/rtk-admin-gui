@@ -5,13 +5,17 @@ import { IPatchData } from '../utils';
 export const fetchGateways = createAsyncThunk(
   'gateways/fetchGateways',
   async (_, { rejectWithValue }) => {
-    const response = await fetch(`${ApiUrls.gateways()}`)
-
-    if (!response.ok) {
-      return rejectWithValue('Can\'t fetch gateways!')
+    try {
+      const response = await fetch(`${ApiUrls.gateways()}`)
+  
+      if (!response.ok) {
+        return rejectWithValue('Не удалось загрузить список шлюзов!');
+      }
+  
+      return (await response.json());
+    } catch {
+      return rejectWithValue('Не удалось загрузить список шлюзов!');
     }
-
-    return (await response.json());
   }
 );
 
@@ -30,7 +34,7 @@ export const patchGateway = createAsyncThunk(
     });
 
     if (!response.ok) {
-      return rejectWithValue('Can\'t edit gateway!');
+      return rejectWithValue('Не удалось обновить шлюз!');
     }
 
     return (await response.json());
@@ -48,7 +52,7 @@ export const deleteGateway = createAsyncThunk(
     });
 
     if (!response.ok) {
-      return rejectWithValue('Can\'t delete gateway');
+      return rejectWithValue('Не удалось удалить шлюз!');
     }
     
     return id;
@@ -67,7 +71,7 @@ export const addGateway = createAsyncThunk(
     });
 
     if (!response.ok) {
-      return rejectWithValue('Can\'t add gateway!');
+      return rejectWithValue('Не удалось добавить шлюз!');
     };
     
     return (await response.json());

@@ -5,13 +5,17 @@ import { IPatchData } from '../utils';
 export const fetchRegions = createAsyncThunk(
   'regions/fetchRegions',
   async (_, { rejectWithValue }) => {
-    const response = await fetch(`${ApiUrls.regions()}`);
-    
-    if (!response.ok) {
-      return rejectWithValue('Can\'t fetch regions!');
+    try {
+      const response = await fetch(`${ApiUrls.regions()}`);
+      
+      if (!response.ok) {
+        return rejectWithValue('Не удалось загрузить список регионов!');
+      }
+  
+      return (await response.json());
+    } catch {
+      return rejectWithValue('Не удалось загрузить список регионов!');
     }
-
-    return (await response.json());
   }
 );
 
@@ -30,7 +34,7 @@ export const patchRegion = createAsyncThunk(
     });
 
     if (!response.ok) {
-      return rejectWithValue('Can\'t edit region!');
+      return rejectWithValue('Не удалось обновить регион!');
     };
 
     return (await response.json());
@@ -48,7 +52,7 @@ export const deleteRegion = createAsyncThunk(
     });
 
     if (!response.ok) {
-      return rejectWithValue('Can\'t delete region!');
+      return rejectWithValue('Не удалось удалить регион!');
     };
 
     return id;
@@ -67,7 +71,7 @@ export const addRegion = createAsyncThunk(
     });
 
     if (!response.ok) {
-      return rejectWithValue('Can\'t add region!');
+      return rejectWithValue('Не удалось добавить регион!');
     };
 
     return (await response.json());

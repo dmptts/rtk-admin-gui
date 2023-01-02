@@ -5,13 +5,17 @@ import { IPatchData } from '../utils';
 export const fetchHosts = createAsyncThunk(
   'hosts/fetchHosts',
   async (_, { rejectWithValue }) => {
-    const response = await fetch(`${ApiUrls.hosts()}`);
-    
-    if (!response.ok) {
-      return rejectWithValue('Can\'t fetch hosts!');
+    try {
+      const response = await fetch(`${ApiUrls.hosts()}`);
+      
+      if (!response.ok) {
+        return rejectWithValue('Не удалось загрузить список хостов!');
+      }
+  
+      return (await response.json());
+    } catch {
+      return rejectWithValue('Не удалось загрузить список хостов!');
     }
-
-    return (await response.json());
   }
 );
 
@@ -30,7 +34,7 @@ export const patchHost = createAsyncThunk(
     });
 
     if (!response.ok) {
-      return rejectWithValue('Can\'t edit host!');
+      return rejectWithValue('Не удалось обновить хост!');
     };
 
     return (await response.json());
@@ -48,7 +52,7 @@ export const deleteHost = createAsyncThunk(
     });
 
     if (!response.ok) {
-      return rejectWithValue('Can\'t delete host!');
+      return rejectWithValue('Не удалось удалить хост!');
     };
 
     return id;
@@ -67,7 +71,7 @@ export const addHost = createAsyncThunk(
     });
 
     if (!response.ok) {
-      return rejectWithValue('Can\'t add host!');
+      return rejectWithValue('Не удалось добавить хост!');
     };
     
     return (await response.json());

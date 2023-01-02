@@ -5,13 +5,17 @@ import { IPatchData } from '../utils';
 export const fetchModelConfigs = createAsyncThunk(
   'modelConfigs/fetchModelConfigs',
   async (_, { rejectWithValue }) => {
-    const response = await fetch(`${ApiUrls.modelConfigs()}`);
-    
-    if (!response.ok) {
-      return rejectWithValue('Can\'t fetch models!');
+    try {
+      const response = await fetch(`${ApiUrls.modelConfigs()}`);
+      
+      if (!response.ok) {
+        return rejectWithValue('Не удалось загрузить список конфигураций!');
+      }
+  
+      return (await response.json());
+    } catch {
+      return rejectWithValue('Не удалось загрузить список конфигураций!');
     }
-
-    return (await response.json());
   }
 );
 
@@ -30,7 +34,7 @@ export const patchModelConfig = createAsyncThunk(
     });
 
     if (!response.ok) {
-      return rejectWithValue('Can\'t edit model!');
+      return rejectWithValue('Не удалось обновить конфигурацию!');
     };
 
     return (await response.json());
@@ -48,7 +52,7 @@ export const deleteModelConfig = createAsyncThunk(
     });
 
     if (!response.ok) {
-      return rejectWithValue('Can\'t delete model!');
+      return rejectWithValue('Не удалось удалить конфигурацию!');
     };
 
     return id;
@@ -67,7 +71,7 @@ export const addModelConfig = createAsyncThunk(
     });
 
     if (!response.ok) {
-      return rejectWithValue('Can\'t add model!');
+      return rejectWithValue('Не удалось добавить конфигурацию!');
     };
     
     return (await response.json());
