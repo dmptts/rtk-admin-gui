@@ -9,10 +9,6 @@ const initialState: IAlertState = {
   alerts: [],
 };
 
-const isPatchFullfiled = (action: AnyAction) => {
-  return action.type.includes('patch') && action.type.endsWith('fulfilled');
-};
-
 const isPatchRejected = (action: AnyAction) => {
   return action.type.includes('patch') && action.type.endsWith('rejected');
 };
@@ -46,12 +42,6 @@ const alertSlice = createSlice({
   },
   extraReducers(builder) {
     builder
-      .addMatcher(isPatchFullfiled, (state) => {
-        state.alerts.push({
-          message: 'Запись успешно обновлена',
-          type: 'success'
-        });
-      })
       .addMatcher(isPatchRejected, (state, action) => {
         state.alerts.push({
           message: `При обновлении записи произошла ошибка: ${action.payload.error}`,
