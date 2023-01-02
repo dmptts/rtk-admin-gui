@@ -2,7 +2,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { ApiUrls, Region, RegionPostData } from '../const';
 import { IPatchData } from '../utils';
 
-export const fetchRegions = createAsyncThunk<Region[]>(
+export const fetchRegions = createAsyncThunk(
   'regions/fetchRegions',
   async (_, { rejectWithValue }) => {
     const response = await fetch(`${ApiUrls.regions()}`);

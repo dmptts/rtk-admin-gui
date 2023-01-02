@@ -2,7 +2,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { ApiUrls, ModelConfig, ModelConfigPostData } from '../const';
 import { IPatchData } from '../utils';
 
-export const fetchModelConfigs = createAsyncThunk<ModelConfig[]>(
+export const fetchModelConfigs = createAsyncThunk(
   'models/fetchModelConfigs',
   async (_, { rejectWithValue }) => {
     const response = await fetch(`${ApiUrls.modelConfigs()}`);

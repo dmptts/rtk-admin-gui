@@ -109,12 +109,14 @@ export default function DataRow
     err: FormikErrors<T>
   ) => {
     if (!err) {
-      dispatch(patchEntity({
-        id: entity.id,
-        payload: {
-          [e.target.name]: e.target.value
-        }
-      } as unknown as IPatchData<T>));
+      if (e.target.value !== entity[e.target.name].toString()) {
+        dispatch(patchEntity({
+          id: entity.id,
+          payload: {
+            [e.target.name]: e.target.value,
+          },
+        } as unknown as IPatchData<T>));
+      }
     }
   };
 
@@ -126,7 +128,6 @@ export default function DataRow
         validationSchema={validationSchema}
         // TODO: Найти способ избавиться от onSubmit. Formik считает это обязательным пропом.
         onSubmit={() => {}}
-
       >
         {({
             values,

@@ -1,8 +1,8 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { ApiUrls, Host, HostPostData,  } from '../const';
+import { ApiUrls, Host, HostPostData } from '../const';
 import { IPatchData } from '../utils';
 
-export const fetchHosts = createAsyncThunk<Host[]>(
+export const fetchHosts = createAsyncThunk(
   'hosts/fetchHosts',
   async (_, { rejectWithValue }) => {
     const response = await fetch(`${ApiUrls.hosts()}`);
