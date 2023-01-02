@@ -15,6 +15,9 @@ const TableContainer = styled.div`
 
   border-radius: 20px;
   background-color: var(--color-table-bg);
+`;
+
+const TableWrapper = styled.div`
   overflow-x: auto;
 `;
 
@@ -165,18 +168,20 @@ export default function DataTable<T extends { id: number, [key: string]: any }> 
         error ?
         <LoadErrorMsg>{error}</LoadErrorMsg> :
         <>
-          <Table>
-            <thead>
-              <tr>
-                {getTableHeadings()}
-              </tr>
-            </thead>
-            <tbody>
-              {searchState && data.length > 0 && <Search state={searchState} stateSetter={setSearchState} />}
-              
-              {renderData()}
-            </tbody>
-          </Table>
+          <TableWrapper>
+            <Table>
+              <thead>
+                <tr>
+                  {getTableHeadings()}
+                </tr>
+              </thead>
+              <tbody>
+                {searchState && data.length > 0 && <Search state={searchState} stateSetter={setSearchState} />}
+                
+                {renderData()}
+              </tbody>
+            </Table>
+          </TableWrapper>
           <TablePagination
             pagesCount={pagesCount}
             currentPage={currentPage}
