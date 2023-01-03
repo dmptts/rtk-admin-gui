@@ -4,12 +4,12 @@ import { useAppDispatch } from '../hooks';
 import styled from 'styled-components';
 import { Form, Formik } from 'formik';
 import Button from './Button';
-import Input from './Input';
 import { DataHeadingsTranslations, InputPlaceholders } from '../const';
 import SVG from 'react-inlinesvg';
 import PlusIcon from '../img/icon-plus.svg';
 import { AnyObject } from 'yup/lib/types';
 import { ObjectSchema } from 'yup';
+import TextField from './TextField';
 
 const FormContainer = styled.div<{ isOpened: boolean }>`
   display: flex;
@@ -33,30 +33,6 @@ const InputsContainer = styled.div`
   margin-top: 25px;
   margin-bottom: 25px;
 `;
-
-const InputWrapper = styled.div`
-  position: relative;
-  display: flex;
-  flex-direction: column;
-`;
-
-const InputErrorMsg = styled.span`
-  position: absolute;
-  bottom: 0;
-  left: 0;
-
-  font-size: 12px;
-  color: #ff6347;
-`;
-
-const Label = styled.label`
-  margin-bottom: 5px;
-`;
-
-const StyledInput = styled(Input)`
-  width: 240px;
-  margin-bottom: 20px;
-`
 
 const ToggleButton = styled(Button)`
   width: 150px;
@@ -138,25 +114,19 @@ export default function AddDataForm<T> ({ fields, addEntity, validationSchema }:
           }) => <Form>
             <InputsContainer>
               {Object.entries(values).map((formField, i) => {
-                return <InputWrapper key={i}>
-                  <Label htmlFor={`${formField[0]}-field`}>
-                    {`${DataHeadingsTranslations[formField[0] as keyof typeof DataHeadingsTranslations]}:`}
-                  </Label>
-                  <StyledInput
-                    type="text"
-                    name={formField[0]}
-                    id={`${formField[0]}-field`}
-                    value={values[formField[1]]}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    placeholder={InputPlaceholders[formField[0] as keyof typeof InputPlaceholders]}
-                  />
-                  {
-                    touched[formField[0]] &&
-                    errors[formField[0]] &&
-                    <InputErrorMsg>{errors[formField[0]]}</InputErrorMsg>
-                  }
-                </InputWrapper>
+                return <TextField
+                  key={i}
+                  id={`${formField[0]}-field`}
+                  name={formField[0]}
+                  value={values[formField[1]]}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  placeholder={InputPlaceholders[formField[0] as keyof typeof InputPlaceholders]}
+                  touched={touched[formField[0]]}
+                  error={errors[formField[0]]}
+                  labelText={`${DataHeadingsTranslations[formField[0] as keyof typeof DataHeadingsTranslations]}:`}
+                  width={240}
+                />
               })}
             </InputsContainer>
 

@@ -2,7 +2,7 @@ import React, { Dispatch } from 'react';
 import styled from 'styled-components';
 import { DataHeadingsTranslations } from '../const';
 import { sortPropertiesByTemplate } from '../utils';
-import Input from './Input';
+import TextField from './TextField';
 
 const TableCell = styled.td`
   &:first-child {
@@ -33,7 +33,7 @@ export default function Search<T extends SearchStateI> ({state, stateSetter}: Se
         .sort(sortPropertiesByTemplate)
         .map((param, i) => {
           return <TableCell key={i}>
-            <Input
+            <TextField
               type="text"
               name={param}
               value={state[param as keyof T]}

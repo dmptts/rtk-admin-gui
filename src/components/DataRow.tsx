@@ -4,12 +4,11 @@ import { useAppDispatch } from '../hooks';
 import { IPatchData, sortPropertiesByTemplate } from '../utils';
 import CloseIcon from '../img/icon-close.svg';
 import SVG from 'react-inlinesvg';
-import Input from './Input';
 import { Formik, FormikErrors } from 'formik';
 import { DataHeadingsTranslations } from '../const';
-import { visuallyHidden } from '../global-styles';
 import { ObjectSchema } from 'yup';
 import { AnyObject } from 'yup/lib/types';
+import TextField from './TextField';
 
 const TableCell = styled.td`
   &:first-child {
@@ -21,31 +20,8 @@ const TableCell = styled.td`
   }
 `;
 
-const InputWrapper = styled.div`
-  position: relative;
-  display: flex;
-  flex-direction: column;
-`;
-
 const TextWrapper = styled.div`
   margin-bottom: 20px;
-`;
-
-const Label = styled.label`
-  ${visuallyHidden}
-`;
-
-const StyledInput = styled(Input)`
-  margin-bottom: 20px;
-`;
-
-const InputErrorMsg = styled.span`
-  position: absolute;
-  bottom: 0;
-  left: 0;
-
-  font-size: 12px;
-  color: #ff6347;
 `;
 
 const DeleteBtn = styled.button`
@@ -144,24 +120,16 @@ export default function DataRow
                     </TableCell>
                   } else {
                     return <TableCell key={i}>
-                      <InputWrapper>
-                        <Label>
-                          {DataHeadingsTranslations[formField[0] as keyof typeof DataHeadingsTranslations]}
-                        </Label>
-                        <StyledInput
-                          type="text"
-                          name={formField[0]}
-                          value={formField[1]}
-                          onChange={handleChange}
-                          onBlur={(e) => inputBlurHandler(e, errors[formField[0]] as FormikErrors<T>)}
-                        />
-                        {
-                          errors[formField[0]] &&
-                          <InputErrorMsg>
-                            {errors[formField[0]] as string}
-                          </InputErrorMsg>
-                        }
-                      </InputWrapper>
+                      <TextField
+                        id={`${formField[0]}-field-${i}`}
+                        name={formField[0]}
+                        value={formField[1]}
+                        onChange={handleChange}
+                        onBlur={(e) => inputBlurHandler(e, errors[formField[0]] as FormikErrors<T>)}
+                        error={errors[formField[0]] as string}
+                        labelText={DataHeadingsTranslations[formField[0] as keyof typeof DataHeadingsTranslations]}
+                        hideLabel={true}
+                      />
                     </TableCell>
                   };
               })}
