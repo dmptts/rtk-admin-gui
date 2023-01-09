@@ -1,5 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { ApiUrls, ModelConfig, ModelConfigPostData } from '../const';
+import { ApiUrls, IModelConfig, ModelConfigPostData } from '../const';
 import { IPatchData } from '../utils';
 
 export const fetchModelConfigs = createAsyncThunk(
@@ -22,7 +22,7 @@ export const fetchModelConfigs = createAsyncThunk(
 export const patchModelConfig = createAsyncThunk(
   'modelConfigs/patchModelConfig',
   async (
-    data: IPatchData<ModelConfig>,
+    data: IPatchData<IModelConfig>,
     { rejectWithValue }
   ) => {
     const response = await fetch(`${ApiUrls.modelConfig(data.id)}`, {

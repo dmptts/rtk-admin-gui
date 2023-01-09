@@ -1,9 +1,9 @@
 import { AnyAction, createEntityAdapter, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { addRegion, deleteRegion, fetchRegions, patchRegion } from '../api/regions';
-import { Region } from '../const';
+import { IRegion } from '../const';
 import { RootState } from './store';
 
-const regionsAdapter = createEntityAdapter<Region>();
+const regionsAdapter = createEntityAdapter<IRegion>();
 
 interface ExtendedEntityAdapterState {
   loading: boolean,

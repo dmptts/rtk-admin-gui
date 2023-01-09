@@ -43,7 +43,7 @@ const InputErrorMsg = styled.span`
   color: #ff6347;
 `;
 
-interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
+interface ITextFieldProps extends InputHTMLAttributes<HTMLInputElement> {
   error?: string,
   touched?: boolean,
   hideLabel?: boolean,
@@ -51,7 +51,7 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   width?: number,
 };
 
-export default function TextField (props: InputProps) {
+export default function TextField (props: ITextFieldProps) {
   const {
     id,
     labelText,

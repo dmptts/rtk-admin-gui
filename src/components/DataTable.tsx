@@ -56,7 +56,7 @@ const LoadErrorMsg = styled.div`
   text-align: center;
 `;
 
-interface DataTableProps<T extends { [key: string]: any; id: number; }> {
+interface IDataTableProps<T extends { [key: string]: any; id: number; }> {
   data: T[],
   patchEntity: AsyncThunk<any, IPatchData<T>, object>,
   deleteEntity: AsyncThunk<number, number, object>,
@@ -70,7 +70,7 @@ export default function DataTable<T extends { id: number, [key: string]: any }> 
   deleteEntity,
   error,
   validationSchema,
-}: DataTableProps<T>) {
+}: IDataTableProps<T>) {
   const itemsPerPage = 10;
   const [searchState, setSearchState] = useState<{[key in keyof T]: string} | null>(null);
   const [currentPage, setCurrentPage] = useState<number>(1);

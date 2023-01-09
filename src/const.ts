@@ -11,7 +11,7 @@ export const ApiUrls = {
   host: (id: number) => `${BASE_URL}/hosts/${id}`,
 };
 
-export interface Gateway {
+export interface IGateway {
   id: number,
   ip: string,
   login: string,
@@ -19,9 +19,9 @@ export interface Gateway {
   type: number,
 };
 
-export type GatewayPostData = Omit<Gateway, 'id'>;
+export type GatewayPostData = Omit<IGateway, 'id'>;
 
-export interface ModelConfig {
+export interface IModelConfig {
   id: number,
   model: string,
   region: string,
@@ -31,18 +31,18 @@ export interface ModelConfig {
   super_password: string,
 };
 
-export type ModelConfigPostData = Omit<ModelConfig, 'id'>;
+export type ModelConfigPostData = Omit<IModelConfig, 'id'>;
 
-export interface Region {
+export interface IRegion {
   id: number,
   name: string,
   description: string,
   gateway_id: number
 };
 
-export type RegionPostData = Omit<Region, 'id'>;
+export type RegionPostData = Omit<IRegion, 'id'>;
 
-export interface Host {
+export interface IHost {
   id: number,
   ip: string,
   title: string,
@@ -58,7 +58,7 @@ export interface Host {
   status: number,
 }
 
-export type HostPostData = Omit<Host, 'id'>;
+export type HostPostData = Omit<IHost, 'id'>;
   
 export enum DataHeadingsTranslations {
   id = 'ID',

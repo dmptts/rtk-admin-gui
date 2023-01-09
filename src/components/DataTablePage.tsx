@@ -11,7 +11,7 @@ import DataTable from './DataTable';
 import PageHeader from './PageHeader';
 import Spinner from './Spinner';
 
-interface DataTableProps<T extends { [key: string]: any; id: number; }> {
+interface IDataTablePageProps<T extends { [key: string]: any; id: number; }> {
   fetchAction: AsyncThunk<T[], void, object>,
   addAction: AsyncThunk<any, Omit<T, 'id'>, object>,
   patchAction: AsyncThunk<any, IPatchData<T>, object>,
@@ -32,7 +32,7 @@ export default function DataTablePage<T extends {
   selectors,
   slice,
   validationSchema
-}: DataTableProps<T>) {
+}: IDataTablePageProps<T>) {
   const dispatch = useAppDispatch();
   const entities = useAppSelector(selectors.selectAll);
   const error = useAppSelector((state) => state[slice].error);

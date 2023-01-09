@@ -4,7 +4,7 @@ import MainPage from './components/MainPage';
 import DataTablePage from './components/DataTablePage';
 import { addModelConfig, deleteModelConfig, fetchModelConfigs, patchModelConfig } from './api/modelConfigs';
 import { selectors as modelConfigSelectors } from './store/modelConfigsSlice';
-import { Gateway, Host, ModelConfig, Region } from './const';
+import { IGateway, IHost, IModelConfig, IRegion } from './const';
 import { addGateway, deleteGateway, fetchGateways, patchGateway } from './api/gateways';
 import { selectors as gatewaySelectors } from './store/gatewaysSlice';
 import { addHost, deleteHost, fetchHosts, patchHost } from './api/hosts';
@@ -22,7 +22,7 @@ const router = createBrowserRouter([
   {
     path: '/configs',
     element: <DataTablePage
-      <ModelConfig>
+      <IModelConfig>
       fetchAction={fetchModelConfigs}
       addAction={addModelConfig}
       patchAction={patchModelConfig}
@@ -35,7 +35,7 @@ const router = createBrowserRouter([
   {
     path: '/gateways',
     element: <DataTablePage
-      <Gateway>
+      <IGateway>
       fetchAction={fetchGateways}
       addAction={addGateway}
       patchAction={patchGateway}
@@ -48,7 +48,7 @@ const router = createBrowserRouter([
   {
     path: '/hosts',
     element: <DataTablePage
-      <Host>
+      <IHost>
       fetchAction={fetchHosts}
       addAction={addHost}
       patchAction={patchHost}
@@ -61,7 +61,7 @@ const router = createBrowserRouter([
   {
     path: '/regions',
     element: <DataTablePage
-      <Region>
+      <IRegion>
       fetchAction={fetchRegions}
       addAction={addRegion}
       patchAction={patchRegion}

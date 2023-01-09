@@ -1,5 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { ApiUrls, Region, RegionPostData } from '../const';
+import { ApiUrls, IRegion, RegionPostData } from '../const';
 import { IPatchData } from '../utils';
 
 export const fetchRegions = createAsyncThunk(
@@ -22,7 +22,7 @@ export const fetchRegions = createAsyncThunk(
 export const patchRegion = createAsyncThunk(
   'regions/patchRegion',
   async (
-    data: IPatchData<Region>,
+    data: IPatchData<IRegion>,
     { rejectWithValue }
   ) => {
     const response = await fetch(`${ApiUrls.region(data.id)}`, {

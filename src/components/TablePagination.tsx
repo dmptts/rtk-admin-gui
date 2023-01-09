@@ -74,8 +74,6 @@ const PaginationItem = styled.li<{ isActive?: boolean }>`
     border-width: 0;
   }
 
-  
-
   &:last-child:hover {
     padding-right: ${({ isActive }) => !isActive && '11px'};
   }
@@ -124,7 +122,7 @@ const PaginationLastItem = styled(PaginationFirstItem)`
   }
 `;
 
-interface TablePagintaionProps {
+interface ITablePagintaionProps {
   pagesCount: number,
   currentPage: number,
   setCurrentPage: Dispatch<number>,
@@ -134,7 +132,7 @@ function TablePagination ({
   pagesCount,
   currentPage,
   setCurrentPage
-}: TablePagintaionProps) {
+}: ITablePagintaionProps) {
 
   const clickHandler = (e: FormEvent, index: number) => {
     e.preventDefault();
@@ -181,6 +179,7 @@ function TablePagination ({
             <SVG src={EllipsisIcon} width={22} height={8} />
           </PaginationEllipsis>
         );
+        
         result.push(
           <PaginationLastItem onClick={(e) => clickHandler(e, pagesCount)}>
             <SVG src={ChevronIcon} width={10} height={16} />

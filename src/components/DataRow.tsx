@@ -56,7 +56,7 @@ const DeleteBtn = styled.button`
   }
 `;
 
-interface DataRowProps<T extends { [key: string]: any; id: number; }> {
+interface IDataRowProps<T extends { [key: string]: any; id: number; }> {
   entity: T,
   patchEntity: AsyncThunk<any, IPatchData<T>, object>,
   deleteEntity: AsyncThunk<number, number, object>,
@@ -69,7 +69,7 @@ export default function DataRow
     patchEntity,
     deleteEntity,
     validationSchema
-  }: DataRowProps<T>) {
+  }: IDataRowProps<T>) {
   const dispatch = useAppDispatch();
   
   const deleteBtnClickHandler = (

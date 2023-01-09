@@ -10,16 +10,16 @@ const TableCell = styled.td`
   }
 `;
 
-interface SearchProps<T> {
+interface ISearchProps<T> {
   state: T,
   stateSetter: Dispatch<T>
 };
 
-interface SearchStateI {
+interface ISearchStateI {
   [key: string]: string,
 };
 
-export default function Search<T extends SearchStateI> ({state, stateSetter}: SearchProps<T>) {
+export default function Search<T extends ISearchStateI> ({state, stateSetter}: ISearchProps<T>) {
   const changeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     stateSetter({
       ...state,

@@ -7,11 +7,11 @@ const StyledContainer = styled.div`
   padding-right: 60px;
 `;
 
-interface ContainerProps {
+interface IContainerProps {
   children?: React.ReactNode
 }
 
-function Container ({children}: ContainerProps) {
+function Container ({children}: IContainerProps) {
   return (
     <StyledContainer>
       {children}

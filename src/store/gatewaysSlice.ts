@@ -1,9 +1,9 @@
 import { AnyAction, createEntityAdapter, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { addGateway, deleteGateway, fetchGateways, patchGateway } from '../api/gateways';
-import { Gateway as GatewayInterface } from '../const';
+import { IGateway } from '../const';
 import { RootState } from './store';
 
-const gatewaysAdapter = createEntityAdapter<GatewayInterface>();
+const gatewaysAdapter = createEntityAdapter<IGateway>();
 
 interface ExtendedEntityAdapterState {
   loading: boolean,

@@ -1,9 +1,9 @@
 import { AnyAction, createEntityAdapter, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from './store';
 import { addHost, deleteHost, fetchHosts, patchHost } from '../api/hosts';
-import { Host } from '../const';
+import { IHost } from '../const';
 
-const hostsAdapter = createEntityAdapter<Host>();
+const hostsAdapter = createEntityAdapter<IHost>();
 
 interface ExtendedEntityAdapterState {
   loading: boolean,
