@@ -34,10 +34,7 @@
     "extends": [
       "react-app",
       "react-app/jest"
-    ],
-    "rules": {
-      "interface-name-prefix": "always"
-    }
+    ]
   },
   "browserslist": {
     "production": [
