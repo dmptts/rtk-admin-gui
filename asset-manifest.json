@@ -1,0 +1,19 @@
+{
+  "files": {
+    "main.js": "/admin-gui/static/js/main.42a76872.js",
+    "static/media/roboto-medium.woff": "/admin-gui/static/media/roboto-medium.e624b10d53c919bd7496.woff",
+    "static/media/roboto-regular.woff": "/admin-gui/static/media/roboto-regular.0944be1093c62cedb919.woff",
+    "static/media/roboto-medium.woff2": "/admin-gui/static/media/roboto-medium.57b8a81c7519e4d6b555.woff2",
+    "static/media/roboto-regular.woff2": "/admin-gui/static/media/roboto-regular.9d43b86421e004e704b9.woff2",
+    "index.html": "/admin-gui/index.html",
+    "static/media/icon-spinner.svg": "/admin-gui/static/media/icon-spinner.b0a084c17892ec3d173226484f0e9b24.svg",
+    "static/media/icon-ellipsis.svg": "/admin-gui/static/media/icon-ellipsis.f27fb1ba9e5272f510b08d404cc60834.svg",
+    "static/media/icon-chevron.svg": "/admin-gui/static/media/icon-chevron.e36e0025ca4084c7a583fdd62c958b78.svg",
+    "static/media/icon-plus.svg": "/admin-gui/static/media/icon-plus.6d00357ed6f702dc15b130442c34deac.svg",
+    "static/media/icon-close.svg": "/admin-gui/static/media/icon-close.08acf5d74c22fb387142ead0fb724f0d.svg",
+    "main.42a76872.js.map": "/admin-gui/static/js/main.42a76872.js.map"
+  },
+  "entrypoints": [
+    "static/js/main.42a76872.js"
+  ]
+}
