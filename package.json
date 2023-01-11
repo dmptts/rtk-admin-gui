@@ -1,6 +1,7 @@
 {
   "name": "admin-gui",
   "version": "0.1.0",
+  "homepage": "https://dmptts.github.io/rtk-admin-gui/",
   "private": true,
   "dependencies": {
     "@reduxjs/toolkit": "^1.9.0",
@@ -29,7 +30,7 @@
     "build": "react-scripts build",
     "eject": "react-scripts eject",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -b master -d build"
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": [
