@@ -1,6 +1,6 @@
 {
   "files": {
-    "main.js": "/rtk-admin-gui/static/js/main.08695a8d.js",
+    "main.js": "/rtk-admin-gui/static/js/main.c4a2b4f1.js",
     "static/media/roboto-medium.woff": "/rtk-admin-gui/static/media/roboto-medium.e624b10d53c919bd7496.woff",
     "static/media/roboto-regular.woff": "/rtk-admin-gui/static/media/roboto-regular.0944be1093c62cedb919.woff",
     "static/media/roboto-medium.woff2": "/rtk-admin-gui/static/media/roboto-medium.57b8a81c7519e4d6b555.woff2",
@@ -11,9 +11,9 @@
     "static/media/icon-chevron.svg": "/rtk-admin-gui/static/media/icon-chevron.e36e0025ca4084c7a583fdd62c958b78.svg",
     "static/media/icon-plus.svg": "/rtk-admin-gui/static/media/icon-plus.6d00357ed6f702dc15b130442c34deac.svg",
     "static/media/icon-close.svg": "/rtk-admin-gui/static/media/icon-close.08acf5d74c22fb387142ead0fb724f0d.svg",
-    "main.08695a8d.js.map": "/rtk-admin-gui/static/js/main.08695a8d.js.map"
+    "main.c4a2b4f1.js.map": "/rtk-admin-gui/static/js/main.c4a2b4f1.js.map"
   },
   "entrypoints": [
-    "static/js/main.08695a8d.js"
+    "static/js/main.c4a2b4f1.js"
   ]
 }
